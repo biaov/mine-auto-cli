@@ -5,7 +5,7 @@ import { simplifyGit, handleArguments } from './actions'
 /**
  * 重置版本
  */
-program.usage('[commands] [options]').version(version, '-v, --version', '输出版本号').helpOption('-h, --help', '输出所有命令').option('-l, --log', '运行命令时打印日志')
+program.usage('[commands] [options]').version(version, '-v, --version', '输出版本号').helpOption('-h, --help', '输出所有命令')
 program.command('git [描述]').description('简化 Git 提交命令').action(simplifyGit)
 program.command('build[:环境] [描述]').description('简化打包提交命令')
 
