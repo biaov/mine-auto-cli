@@ -9,7 +9,7 @@ const config: UserConfig = {
     }
   },
   build: {
-    target: 'node18',
+    target: 'node16',
     outDir: resolve(__dirname, './dist'),
     lib: {
       entry: resolve(__dirname, './src/index.ts'),
