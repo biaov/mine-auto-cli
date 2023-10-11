@@ -11,15 +11,15 @@ program.usage('[commands] [options]').version(version, '-v, --version', '输出�
  * 定义命令
  * 简化 git 提交命令
  */
-program.command('auto git [desc]').description('简化 git 提交命令').action(SimpleGit)
+program.command('git [desc]').description('简化 git 提交命令').action(SimpleGit)
 
 /**
  * 定义顶级命令的参数语法
  */
 program.arguments('<cmd> [env]').action(Arguments)
 if (process.argv.length < 3) {
-  // Create()
-  console.log(process.argv, '--process.argv')
+  console.log(process.argv, '---process.argv')
+  program.help()
 } else {
   /**
    * 处理参数

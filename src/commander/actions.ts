@@ -39,10 +39,12 @@ export const SimpleGit = async (desc = '更新代码') => {
  * 定义顶级命令的 action
  */
 export const Arguments = (cmd: any, env: any) => {
+  console.log(cmd, env, '///')
+
   /**
    * 输出错误
    */
-  error(`\`auto ${cmd}${env ? ` ${env}` : ''}\` 命令不存在`)
+  error(chalk.hex('#f56c6c')(`\`auto ${cmd}${env ? ` ${env}` : ''}\` 命令不存在`))
   /**
    * 显示全部命令
    */
