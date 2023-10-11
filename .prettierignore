@@ -1,0 +1,12 @@
+# 目录
+*.git/
+dist/
+lib/
+node_modules/
+
+# 文件
+.npmignore
+.prettierignore
+.prettierrc
+LICENSE
+package-lock.json

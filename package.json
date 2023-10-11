@@ -1,0 +1,68 @@
+{
+  "name": "mine-auto-cli",
+  "private": false,
+  "version": "2.0.0",
+  "exports": "./index.js",
+  "main": "./index.js",
+  "type": "module",
+  "bin": {
+    "auto": "bin/mine-auto-cli.js"
+  },
+  "author": {
+    "name": "biaov",
+    "email": "biaov@qq.com",
+    "url": "https://biaov.cn"
+  },
+  "description": "一个将多个命令简化成一个命令的项目 😆",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "node scripts/dev",
+    "build": "node scripts/build",
+    "prettier": "prettier --write '**/*.{js,ts,md,json}'",
+    "ncu": "ncu --configFileName .ncurc.json && npm i",
+    "pre-publish": "start cmd /k cd ./dist"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": [
+    "auto",
+    "cli",
+    "vite",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/biaov/mine-auto-cli.git"
+  },
+  "homepage": "https://github.com/biaov/mine-auto-cli.git",
+  "bugs": {
+    "url": "https://github.com/biaov/mine-auto-cli/issues"
+  },
+  "license": "ISC",
+  "contributors": [
+    {
+      "name": "biaov",
+      "email": "biaov@qq.com"
+    }
+  ],
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.0.0",
+    "inquirer": "^9.2.11",
+    "log-symbols": "^5.1.0",
+    "ora": "^7.0.1",
+    "update-notifier": "^6.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.4",
+    "@types/update-notifier": "^6.0.5",
+    "chokidar": "^3.5.3",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11"
+  }
+}
