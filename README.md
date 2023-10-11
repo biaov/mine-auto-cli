@@ -9,9 +9,27 @@
   <a href="https://github.com/biaov/mine-auto-cli/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?logo=Unlicense" /></a>
 </h2>
 
+## 全局安装
+
+```sh
+npm i -g mine-auto-cli
+```
+
 ## 使用
 
-- 简化 Git 提交命令
+### 查看版本
+
+```sh
+auto -v
+```
+
+### 查看所有命令
+
+```sh
+auto -h
+```
+
+### 简化 Git 提交命令
 
 ```sh
 auto git [描述]
@@ -21,7 +39,7 @@ git commit -m [描述]
 git push
 ```
 
-- 简化打包提交命令
+### 简化打包提交命令
 
 ```sh
 auto build[:环境] [描述]
