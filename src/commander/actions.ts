@@ -14,7 +14,8 @@ const execCommand = (cmd: string) => {
   info(`开始执行 ${chalk.cyanBright(cmd)} 命令`)
   const spinner = ora({ text: '正在执行命令中...', color: 'yellow' })
   spinner.start()
-  execSync(cmd, { cwd: process.cwd() })
+  const childProcess = execSync(cmd, { cwd: process.cwd() })
+  info(childProcess.toString())
   spinner.succeed(`${chalk.green(cmd)} 命令执行成功`)
   info()
 }

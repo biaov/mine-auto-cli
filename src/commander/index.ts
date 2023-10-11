@@ -19,8 +19,4 @@ program.arguments('<cmd> [env]').action((cmd: any, env: any) => {
 /**
  * 处理参数
  */
-if (process.argv.length < 3) {
-  program.help()
-} else {
-  program.parse(process.argv)
-}
+process.argv.length < 3 ? program.help() : program.parse(process.argv)
