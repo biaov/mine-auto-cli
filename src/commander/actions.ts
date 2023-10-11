@@ -38,9 +38,9 @@ export const simplifyGit = async (desc = '更新代码') => {
 }
 
 /**
- * 简化 git 提交命令
+ * 简化打包提交命令
  */
-export const simplifyBuild = async (cmd: string, desc = '更新代码') => {
+export const simplifyBuild = async (cmd: string, desc = '打包') => {
   info()
   info(`${chalk.yellow('>>')} 开始依次执行命令...`)
   info()
