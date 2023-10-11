@@ -1,19 +1,11 @@
 import { program } from 'commander'
-import type { Command } from 'commander'
-import inquirer from 'inquirer'
 import chalk from 'chalk'
 import ora from 'ora'
 import { execSync } from 'child_process'
-import { existsSync, readFileSync, writeFileSync } from 'fs'
-import { exec } from 'child_process'
 import log from '@/utils/log'
-import { templateUrls, templateNames, installTools, toolCommands } from '@/config'
-import { SavePresetInfo, GetPresetInfo, FormatePreset } from '@/utils/functions'
-import { version } from '@/../package.json'
-import { PresetInfo, Template } from './types'
 import { gitCmds, buildCmds } from './cmds'
 
-const { iconError, iconSuccess, success, info, error, warning } = log
+const { success, info, error } = log
 
 /**
  * 执行命令

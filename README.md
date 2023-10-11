@@ -40,7 +40,6 @@ git push
 
 - `chalk`: 字体颜色
 - `commander`: 命令
-- `inquirer`: 用户交互
 - `log-symbols`: 图标
 - `ora`: 动画效果
 - `update-notifier`: 检查更新
