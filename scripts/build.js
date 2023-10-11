@@ -1,8 +1,7 @@
-import { createViteBuild, rewritePackage, copyAssets } from './hooks.js'
+import { rewritePackage, copyAssets } from './hooks.js'
 
 !(async () => {
   try {
-    await createViteBuild()
     await rewritePackage()
     await copyAssets()
   } catch (e) {

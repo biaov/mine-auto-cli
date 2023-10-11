@@ -17,7 +17,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "node scripts/dev",
-    "build": "node scripts/build",
+    "build": "vite build && node scripts/build",
     "prettier": "prettier --write '**/*.{js,ts,md,json}'",
     "ncu": "ncu --configFileName .ncurc.json && npm i",
     "pre-publish": "start cmd /k cd ./dist"

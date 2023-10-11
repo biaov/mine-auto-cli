@@ -9,14 +9,14 @@ const config: UserConfig = {
     }
   },
   build: {
-    target: 'node16',
+    target: 'node18',
     outDir: resolve(__dirname, './dist'),
     lib: {
       entry: resolve(__dirname, './src/index.ts'),
       formats: ['es']
     },
     rollupOptions: {
-      external: ['update-notifier', 'url', 'path', 'child_process', 'fs', 'chalk', 'commander', 'inquirer', 'log-symbols', 'ora'],
+      external: ['update-notifier', 'url', 'path', 'child_process', 'fs', 'chalk', 'commander', 'log-symbols', 'ora'],
       output: {
         entryFileNames: '[name].js'
       }

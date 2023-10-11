@@ -1,30 +1,9 @@
 import { writeFileSync, copyFileSync, existsSync, readdirSync, mkdirSync, readFileSync } from 'fs'
 import { join } from 'path'
-import { createServer, build, createLogger } from 'vite'
 import { resetPath } from './path.js'
 
 const pkg = JSON.parse(readFileSync(resetPath('@/package.json')))
-const sharedConfig = { logLevel: 'info' }
 const packageJson = pkg
-
-/**
- * vite 服务
- */
-export const createViteBuild = () =>
-  build({
-    ...sharedConfig,
-    configFile: resetPath('@/vite.config.ts'),
-    mode: 'production'
-  })
-
-/**
- * vite 打包
- */
-export const createViteServer = () =>
-  createServer({
-    ...sharedConfig,
-    configFile: resetPath('@/vite.config.ts')
-  })
 
 /**
  * 重写 package.json
@@ -74,10 +53,6 @@ export const copyAssets = () => {
     copyFileSync(join(inputDir, path), join(outputDir, path))
   })
 }
-
-const logger = createLogger('warn', {
-  prefix: '[ 日志 ]'
-})
 
 export const log = (error, stdout) => {
   if (!(error && error.toString().trim())) return
