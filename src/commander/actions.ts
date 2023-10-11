@@ -1,4 +1,5 @@
 import { program } from 'commander'
+import type { Command } from 'commander'
 import inquirer from 'inquirer'
 import chalk from 'chalk'
 import ora from 'ora'
@@ -17,7 +18,7 @@ const { iconError, iconSuccess, success, info, error, warning } = log
 /**
  * 简化 git 提交命令
  */
-export const SimpleGit = async (desc = '更新代码') => {
+export const simplifyGit = async (desc = '更新代码') => {
   info()
   info(`${chalk.yellow('>>')} 开始依次执行命令...`)
   info()
@@ -36,11 +37,18 @@ export const SimpleGit = async (desc = '更新代码') => {
 }
 
 /**
+ * 简化 git 提交命令
+ */
+export const simplifyBuild = async (cmd: string, desc = '更新代码') => {
+  console.log(cmd, desc)
+  return `npm run ${cmd}`
+}
+
+/**
  * 定义顶级命令的 action
  */
-export const Arguments = (cmd: any, env: any) => {
-  console.log(cmd, env, '///')
-
+export const handleArguments = (cmd: string, env?: string) => {
+  if (cmd.includes('build')) return simplifyBuild(cmd, env)
   /**
    * 输出错误
    */
