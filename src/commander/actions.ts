@@ -21,7 +21,7 @@ const execCommand = (cmd: string) => {
 }
 
 /**
- * 简化 git 提交命令
+ * 简化 Git 提交命令
  */
 export const simplifyGit = async (desc = '更新代码') => {
   info()
