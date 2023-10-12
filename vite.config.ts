@@ -10,7 +10,7 @@ const config: UserConfig = {
   },
   build: {
     target: 'node16',
-    outDir: resolve(__dirname, './dist'),
+    outDir: resolve(__dirname, './dist/dist'),
     lib: {
       entry: resolve(__dirname, './src/index.ts'),
       formats: ['es']

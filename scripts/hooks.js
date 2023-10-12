@@ -1,4 +1,4 @@
-import { writeFileSync, copyFileSync, existsSync, readdirSync, mkdirSync, readFileSync } from 'fs'
+import { writeFileSync, copyFileSync, existsSync, readdirSync, mkdirSync, readFileSync, statSync, unlinkSync } from 'fs'
 import { join } from 'path'
 import { resetPath } from './path.js'
 
@@ -9,6 +9,12 @@ const packageJson = pkg
  * 重写 package.json
  */
 export const rewritePackage = () => {
+  /**
+   * 重置输出目录
+   */
+  const output = resetPath('@/dist')
+  !existsSync(output) && mkdirSync(output)
+
   packageJson.devDependencies = packageJson.scripts = {}
   /**
    * 写入最新的
@@ -17,39 +23,41 @@ export const rewritePackage = () => {
 }
 
 /**
+ * 拷贝目录
+ */
+const copyDirectory = (source, destination) => {
+  const stat = statSync(source)
+  if (stat.isFile()) {
+    /**
+     * 复制文件
+     */
+    existsSync(destination) && unlinkSync(destination)
+    copyFileSync(source, destination)
+  } else if (stat.isDirectory()) {
+    /**
+     * 创建目录
+     */
+    !existsSync(destination) && mkdirSync(destination)
+
+    /**
+     * 原有目录
+     */
+    const directory = readdirSync(source)
+    directory.forEach(file => {
+      copyDirectory(join(source, file), join(destination, file))
+    })
+  }
+}
+
+/**
  * 复制资源
  */
 export const copyAssets = () => {
   /**
-   * 根目录需要复制文件夹
+   * 根目录需要复制的文件和目录
    */
-  const needDirs = ['bin']
-  /**
-   * 根目录需要复制的文件
-   */
-  const filePaths = ['README.md', 'LICENSE']
-  /**
-   * 根目录
-   */
-  const inputDir = resetPath('@')
-  /**
-   * 输出目录
-   */
-  const outputDir = resetPath('@/dist')
-
-  !existsSync(outputDir) && mkdirSync(outputDir)
-  needDirs.forEach(dir => {
-    const dirPath = resetPath(`@/${dir}`)
-    /**
-     * 创建目录
-     */
-    mkdirSync(join(outputDir, dir))
-    readdirSync(dirPath).forEach(file => {
-      filePaths.push(`${dir}/${file}`)
-    })
-  })
-
+  const filePaths = ['bin', 'README.md', 'LICENSE']
   filePaths.forEach(path => {
-    copyFileSync(join(inputDir, path), join(outputDir, path))
+    copyDirectory(resetPath(`@/${path}`), resetPath(`@/dist/${path}`))
   })
 }
