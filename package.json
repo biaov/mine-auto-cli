@@ -1,9 +1,9 @@
 {
   "name": "mine-auto-cli",
   "private": false,
-  "version": "2.0.2",
-  "exports": "./index.js",
-  "main": "./index.js",
+  "version": "2.0.3",
+  "exports": "./dist/index.js",
+  "main": "./dist/index.js",
   "type": "module",
   "bin": {
     "auto": "bin/mine-auto-cli.js"
@@ -16,11 +16,10 @@
   "description": "一个将多个命令简化成一个命令的项目 😆",
   "scripts": {
     "start": "npm run dev",
-    "dev": "vite build --watch && node scripts/build",
-    "build": "vite build && node scripts/build",
+    "dev": "npm run build -- --watch",
+    "build": "node scripts/build && vite build",
     "prettier": "prettier --write '**/*.{js,ts,md,json}'",
-    "ncu": "ncu --configFileName .ncurc.json && npm i",
-    "pre-publish": "start cmd /k cd ./dist"
+    "ncu": "ncu --configFileName .ncurc.json && npm i"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
