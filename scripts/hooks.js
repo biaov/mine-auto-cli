@@ -53,26 +53,3 @@ export const copyAssets = () => {
     copyFileSync(join(inputDir, path), join(outputDir, path))
   })
 }
-
-export const log = (error, stdout) => {
-  if (!(error && error.toString().trim())) return
-  logger.warn(error.toString(), { timestamp: true })
-  stdout && logger.warn(stdout, { timestamp: true })
-}
-
-export const debounce = (fn, time = 300) => {
-  /**
-   * 定时器
-   */
-  let timer
-
-  return e => {
-    /**
-     * 清理之前的操作
-     */
-    timer !== undefined && clearTimeout(timer)
-    timer = setTimeout(() => {
-      fn(e)
-    }, time)
-  }
-}
