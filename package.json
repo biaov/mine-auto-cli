@@ -1,7 +1,7 @@
 {
   "name": "mine-auto-cli",
   "private": false,
-  "version": "2.0.1",
+  "version": "2.0.2",
   "exports": "./index.js",
   "main": "./index.js",
   "type": "module",
@@ -16,7 +16,7 @@
   "description": "一个将多个命令简化成一个命令的项目 😆",
   "scripts": {
     "start": "npm run dev",
-    "dev": "node scripts/dev",
+    "dev": "vite build --watch && node scripts/build",
     "build": "vite build && node scripts/build",
     "prettier": "prettier --write '**/*.{js,ts,md,json}'",
     "ncu": "ncu --configFileName .ncurc.json && npm i",
@@ -59,7 +59,6 @@
   "devDependencies": {
     "@types/node": "^20.8.4",
     "@types/update-notifier": "^6.0.5",
-    "chokidar": "^3.5.3",
     "prettier": "^3.0.3",
     "typescript": "^5.2.2",
     "vite": "^4.4.11"
