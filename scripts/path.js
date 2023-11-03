@@ -1,6 +1,9 @@
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
+/**
+ * 相对目录
+ */
 export const __dirname = dirname(fileURLToPath(import.meta.url))
 
 /**

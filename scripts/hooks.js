@@ -1,9 +1,7 @@
-import { writeFileSync, copyFileSync, existsSync, readdirSync, mkdirSync, readFileSync, statSync, unlinkSync } from 'fs'
+import { writeFileSync, copyFileSync, existsSync, readdirSync, mkdirSync, statSync, unlinkSync } from 'fs'
 import { join } from 'path'
 import { resetPath } from './path.js'
-
-const pkg = JSON.parse(readFileSync(resetPath('@/package.json')))
-const packageJson = pkg
+import packageJson from '../package.json' assert { type: 'json' }
 
 /**
  * 重写 package.json
