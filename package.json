@@ -35,7 +35,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/biaov/mine-auto-cli.git"
+    "url": "git+https://github.com/biaov/mine-auto-cli.git"
   },
   "homepage": "https://github.com/biaov/mine-auto-cli.git",
   "bugs": {
