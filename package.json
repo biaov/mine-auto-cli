@@ -1,7 +1,7 @@
 {
   "name": "mine-auto-cli",
   "private": false,
-  "version": "2.0.3",
+  "version": "2.0.4",
   "exports": "./dist/index.js",
   "main": "./dist/index.js",
   "type": "module",
@@ -25,7 +25,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "keywords": [
     "auto",
@@ -50,16 +50,16 @@
   ],
   "dependencies": {
     "chalk": "^5.3.0",
-    "commander": "^11.0.0",
-    "log-symbols": "^5.1.0",
+    "commander": "^11.1.0",
+    "log-symbols": "^6.0.0",
     "ora": "^7.0.1",
-    "update-notifier": "^6.0.2"
+    "update-notifier": "^7.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.8.4",
-    "@types/update-notifier": "^6.0.5",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.11"
+    "@types/node": "^20.10.4",
+    "@types/update-notifier": "^6.0.8",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.9"
   }
 }
