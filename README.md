@@ -3,10 +3,10 @@
 一个将多个命令简化成一个命令的项目 😆
 
 <h2 align="center">
-  <a href="https://www.npmjs.com/package/mine-auto-cli"><img src="https://img.shields.io/npm/v/mine-auto-cli.svg?logo=npm" /></a>
-  <a href="https://www.npmjs.com/package/mine-auto-cli"><img src="https://img.shields.io/npm/dt/mine-auto-cli?logo=Markdown" /></a>
-  <a href="https://www.npmjs.com/package/mine-auto-cli"><img src="https://packagephobia.com/badge?p=mine-auto-cli" /></a>
-  <a href="https://github.com/biaov/mine-auto-cli/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?logo=Unlicense" /></a>
+  <a href="https://www.npmjs.com/package/mine-auto-cli"><img src="https://img.shields.io/npm/v/mine-auto-cli.svg?logo=npm" alt="版本" /></a>
+  <a href="https://www.npmjs.com/package/mine-auto-cli"><img src="https://img.shields.io/npm/dt/mine-auto-cli?logo=Markdown" alt="下载量" /></a>
+  <a href="https://www.npmjs.com/package/mine-auto-cli"><img src="https://packagephobia.com/badge?p=mine-auto-cli" alt="安装大小" /></a>
+  <a href="https://github.com/biaov/mine-auto-cli/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?logo=Unlicense" alt="版权" /></a>
 </h2>
 
 ## 全局安装
@@ -48,6 +48,15 @@ npm run build:staging
 git add -A
 git commit -m [描述]
 git push
+```
+
+### 简化手动更改版本号命令
+
+```sh
+# 版本号自增
+auto version++
+# 或者指定具体的版本号
+auto version@1.0.0
 ```
 
 ### 技术栈
