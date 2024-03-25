@@ -1,5 +1,5 @@
+import type { InstallToolKey, TemplateUrlKey } from '@/types'
 import { templateUrls, toolCommands } from './config'
-import { InstallToolKey, TemplateUrlKey } from './types'
 
 /**
  * 模板名称

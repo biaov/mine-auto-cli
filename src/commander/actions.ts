@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import log from '@/utils/log'
 import { gitCmds, buildCmds } from './cmds'
+import { simplifyMkdir } from './mkdir'
 
 const { success, info, error } = log
 
@@ -108,6 +109,7 @@ export const simplifyVersion = async (cmd: string) => {
  * 定义顶级命令的 action
  */
 export const handleArguments = (cmd: string, env?: string) => {
+  console.log(cmd.includes('mkdir'), '--')
   /**
    * 处理 build[:环境] 命令
    */
