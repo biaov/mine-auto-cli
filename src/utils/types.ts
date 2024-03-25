@@ -1,4 +1,4 @@
-import { InstallToolKey, TemplateUrlKey } from '@/config/types'
+import { InstallToolKey, TemplateUrlKey } from '@/types'
 
 /**
  * 日志 API

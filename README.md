@@ -9,6 +9,13 @@
   <a href="https://github.com/biaov/mine-auto-cli/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?logo=Unlicense" alt="版权" /></a>
 </h2>
 
+## 特性
+
+- [x] [简化 `Git` 提交命令](#简化-git-提交命令)
+- [x] [简化打包提交命令](#简化打包提交命令)
+- [x] [简化手动更改版本号命令](#简化手动更改版本号命令)
+- [x] [生成工作目录结构文件](#生成工作目录结构文件)
+
 ## 全局安装
 
 ```sh
@@ -59,17 +66,55 @@ auto version++
 auto version@1.0.0
 ```
 
+### 生成工作目录结构文件
+
+- 可以在工作目录生成 `directory.md` 文件
+
+```sh
+auto mkdir
+```
+
+- `directory.md`
+
+```MD
+├── mine-auto-cli
+│    ├── src
+│    │    └── commander
+└    └── README.md
+```
+
+- 通过 `-l, --line` 生成的结构文件带横线，默认数量为 `20`
+- 通过 `-n, --name` 自定义生成的结构文件名称，默认名称为 `directory`
+
+```sh
+auto mkdir -l 10 -n demo
+```
+
+- `demo.md`
+
+```MD
+├── mine-auto-cli  ----------------------
+│    ├── src  ---------------------------
+│    │    └── commander -----------------
+└    └── README.md ----------------------
+```
+
 ### 技术栈
 
 - `Vite` + `TypeScript` + `Node`
 
 ### 依赖特性
 
+#### dependencies
+
 - `chalk`: 字体颜色
 - `commander`: 命令
 - `log-symbols`: 图标
 - `ora`: 动画效果
 - `update-notifier`: 检查更新
+
+#### devDependencies
+
 - `@types/node`: `node` 类型
 - `@types/update-notifier`: `update-notifier` 类型
 - `prettier`: 格式化工具
