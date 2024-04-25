@@ -4,10 +4,8 @@ import ora from 'ora'
 import { execSync } from 'child_process'
 import { readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
-import log from '@/utils/log'
+import { success, info, error } from '@/utils/log'
 import { gitCmds, buildCmds } from './cmds'
-
-const { success, info, error } = log
 
 /**
  * 执行命令

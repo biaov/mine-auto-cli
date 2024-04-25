@@ -1,30 +1,35 @@
-import { UserConfig } from 'vite'
+import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import rollupPluginCopy from './scripts/rollup-plugin-copy'
 
-const config: UserConfig = {
-  root: __dirname,
+const { dirname } = import.meta
+
+const outDir = resolve(dirname, './dist/dist')
+
+export default defineConfig({
+  root: dirname,
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
+      '@': resolve(dirname, './src'),
+      '~': resolve(dirname, './')
     }
   },
   build: {
     target: 'node20',
-    outDir: resolve(__dirname, './dist/dist'),
+    outDir,
     lib: {
-      entry: resolve(__dirname, './src/index.ts'),
+      entry: resolve(dirname, './src/index.ts'),
       formats: ['es']
     },
     rollupOptions: {
-      external: ['update-notifier', 'url', 'path', 'child_process', 'fs', 'chalk', 'commander', 'log-symbols', 'ora'],
+      external: ['update-notifier', 'url', 'path', 'child_process', 'fs', 'chalk', 'commander', 'log-symbols', 'ora', 'pacote', 'strip-json-comments'],
       output: {
         entryFileNames: '[name].js'
-      }
+      },
+      plugins: [rollupPluginCopy()]
     },
     ssr: false,
     ssrManifest: false,
     emptyOutDir: true
   }
-}
-
-export default config
+})

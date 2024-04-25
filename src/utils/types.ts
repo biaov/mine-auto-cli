@@ -1,12 +1,5 @@
 import { InstallToolKey, TemplateUrlKey } from '@/types'
 
-/**
- * 日志 API
- */
-export interface LogAags {
-  text: string
-  prefix?: string
-}
 
 /**
  * 预设信息

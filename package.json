@@ -1,7 +1,7 @@
 {
   "name": "mine-auto-cli",
   "private": false,
-  "version": "2.2.1",
+  "version": "2.3.0",
   "exports": "./dist/index.js",
   "main": "./dist/index.js",
   "type": "module",
@@ -22,10 +22,12 @@
     "ncu": "ncu --configFileName .ncurc.json && npm i"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "engine-strict": true,
+    "provenance": true
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20.12"
   },
   "keywords": [
     "auto",
@@ -53,13 +55,16 @@
     "commander": "^12.0.0",
     "log-symbols": "^6.0.0",
     "ora": "^8.0.1",
+    "pacote": "^18.0.2",
+    "strip-json-comments": "^5.0.1",
     "update-notifier": "^7.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
+    "@types/node": "^20.12.7",
+    "@types/pacote": "^11.1.8",
     "@types/update-notifier": "^6.0.8",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.6"
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10"
   }
 }

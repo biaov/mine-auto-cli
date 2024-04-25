@@ -17,3 +17,10 @@ export interface MkdirTree {
   name: string
   children?: MkdirTree[]
 }
+
+/**
+ * `https://registry.npmjs.org/包名/` 返回信息
+ */
+export interface NPMResponse {
+  'dist-tags': Record<string, string>
+}
