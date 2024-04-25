@@ -1,6 +1,6 @@
+import { program } from 'commander'
 import { readdirSync, writeFileSync, readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import type { Command } from 'commander'
 import type { MkdirTree } from '@/types'
 
 const topIgnore = ['dist', 'node_modules', '.git', 'miniprogram_npm']
@@ -84,3 +84,11 @@ export const simplifyMkdir = ({ line, name }: Record<string, string | boolean>) 
   }
   writeFileSync(join(rootDir, `${(typeof name === 'string' && name) || 'directory'}.md`), getText(tree))
 }
+
+program
+  .command('mkdir')
+  .option('-l, --line [数量]', '数量', false)
+  .option('-n, --name [文件名称]', '文件名称', false)
+  .option('-d, --depth [深度值]', '深度值', '3')
+  .description('生成目录结构文件')
+  .action(simplifyMkdir)

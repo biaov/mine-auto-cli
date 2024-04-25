@@ -15,6 +15,7 @@
 - [x] [简化打包提交命令](#简化打包提交命令)
 - [x] [简化手动更改版本号命令](#简化手动更改版本号命令)
 - [x] [生成工作目录结构文件](#生成工作目录结构文件)
+- [x] [检查 `package.json` 依赖版本](#检查-packagejson-依赖版本)
 
 ## 全局安装
 
@@ -99,6 +100,39 @@ auto mkdir -l 10 -n demo
 └    └── README.md ----------------------
 ```
 
+### 检查 package.json 依赖版本
+
+```sh
+auto check
+```
+
+![img](./assets/check.png)
+
+#### `check.config.json`
+
+- 自动生成初始化 `check.config.json` 文件
+
+```sh
+npm check -i
+```
+
+- 字段解析：
+  - `prefix`: 版本前缀，默认为 `^`
+  - `registry`: 依赖来源，默认为 `https://registry.npmmirror.com/`
+  - `check`: 是否更新 `package.json` 文件，为 `true` 时等同于 `auto check -u`, `-u` 优先级最高， 默认为 `false`
+  - `reject`: 拒绝检查的依赖，默认为 `[]`
+  - `resolve`: 指定版本检查的标签，默认为 `[]`，例如：['mine-auto-cli@beta']，默认标签为 `latest`
+
+```json
+{
+  "prefix": "^",
+  "registry": "https://registry.npmmirror.com/",
+  "check": false,
+  "reject": [],
+  "resolve": []
+}
+```
+
 ### 技术栈
 
 - `Vite` + `TypeScript` + `Node`
@@ -111,11 +145,14 @@ auto mkdir -l 10 -n demo
 - `commander`: 命令
 - `log-symbols`: 图标
 - `ora`: 动画效果
+- `pacote`: 包信息请求器
+- `strip-json-comments`: 移除 json 注释
 - `update-notifier`: 检查更新
 
 #### devDependencies
 
 - `@types/node`: `node` 类型
+- `@types/pacote`: `pacote` 类型
 - `@types/update-notifier`: `update-notifier` 类型
 - `prettier`: 格式化工具
 - `typescript`: 编程语言
