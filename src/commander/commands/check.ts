@@ -50,15 +50,17 @@ const progressLog = (progress: number, total: number) => {
 const getVersionLog = (name: string, value: string, distTags: NPMResponse['dist-tags']) => {
   let tag = 'latest'
   defaultConfig.resolve.some(item => {
-    const [curName, curTag] = item.split('@')
+    const spaceIndex = item.lastIndexOf('@')
+    if (spaceIndex <= 0) return true
+    const curName = item.slice(0, spaceIndex)
+    const curTag = item.slice(spaceIndex + 1)
     if (name === curName) {
       tag = curTag
       return true
     }
   })
   const newVersion = defaultConfig.prefix + distTags[tag]
-
-  return { text: { name, value, newVersion, tag }, newVersion }
+  return { name, value, newVersion, tag }
 }
 
 /**
@@ -77,19 +79,17 @@ const getValueLength = (value: string, i: number) => (+!i + 1) * value.length
 export const formatterVersion = (oldVersion: string, newVersion: string): string | false => {
   const oldV = oldVersion.match(/\d.+/g)![0].split('.')
   const newV = newVersion.match(/\d.+/g)![0].split('.')
-  const index = newV.findIndex((item, i) => +item > +oldV[i])
-
+  const index = newV.slice(0, -1).findIndex((item, i) => +item > +oldV[i])
   const mainName = defaultConfig.prefix + newV[0]
-
   switch (index) {
     case 0:
       return chalk.red(newVersion)
     case 1:
       return `${mainName}.${chalk.yellow(newV[1])}.${chalk.yellow(newV[2])}`
-    case 2:
-      return `${mainName}.${newV[1]}.${chalk.green(newV[2])}`
     default:
-      return false
+      const oldVLast = oldV.at(-1) as string
+      const newVLast = newV.at(-1) as string
+      return oldVLast !== newVLast && parseInt(newVLast) >= parseInt(oldVLast) ? `${mainName}.${newV[1]}.${chalk.green(newV[2])}` : false
   }
 }
 
@@ -126,7 +126,7 @@ const outVersionLog = (versionLogs: VersionLog[]) => {
       spacer = ' '
     }
 
-    const text = `${name + nameSpace} ${valueSpace + value}  ${spacer}  ${newVersionSpace + newVersion}  ${tagSpace + tag}`
+    const text = `${name + nameSpace}  ${valueSpace + value}  ${spacer}  ${newVersionSpace + newVersion}  ${tagSpace + tag}`
     showLog && outLog.push(text)
   })
   if (outLog.length > 1) {
@@ -156,15 +156,15 @@ const taskProgress = async (allPackages: Record<string, string>, keys: string[],
     /**
      * 获取日志信息
      */
-    const { text, newVersion } = getVersionLog(name, value, data['dist-tags'])
-    versionLogs.push(text)
+    const logItem = getVersionLog(name, value, data['dist-tags'])
+    versionLogs.push(logItem)
 
     /**
      * 收集新包信息
      */
     keys.forEach(key => {
       const item = newPackages[key]
-      item && item[name] && (item[name] = newVersion)
+      item && item[name] && (item[name] = logItem.newVersion)
     })
 
     /**
