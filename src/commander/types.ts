@@ -1,15 +1,4 @@
 /**
- * defaultConfig
- */
-export interface DefaultConfig {
-  prefix: string
-  registry: string
-  check: boolean
-  reject: string[]
-  resolve: string[]
-}
-
-/**
  * versionLogs
  */
 export interface VersionLog {

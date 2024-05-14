@@ -1,4 +1,4 @@
-import type { InstallToolKey, TemplateUrlKey } from '@/types'
+import type { InstallToolKey, TemplateUrlKey, AutoCliNameExt } from '@/types'
 import { templateUrls, toolCommands } from './config'
 
 /**
@@ -17,3 +17,8 @@ export const templateNameString = templateNames.reduce((prev, item, i) => prev +
 export const installTools = Object.keys(toolCommands) as InstallToolKey[]
 
 export { templateUrls, toolCommands }
+
+/**
+ * auto-cli 配置名称
+ */
+export const autoCliName = (ext: AutoCliNameExt = 'jsonc') => `auto-cli.${ext}`

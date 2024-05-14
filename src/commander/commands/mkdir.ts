@@ -64,7 +64,7 @@ export const simplifyMkdir = ({ line, name }: Record<string, string | boolean>) 
 
   const gitignorePath = join(rootDir, '.gitignore')
   if (existsSync(gitignorePath)) {
-    const ignoreFile = readFileSync(gitignorePath, { encoding: 'utf-8' }).split('\r\n')
+    const ignoreFile = readFileSync(gitignorePath).toString().split('\r\n')
     topIgnore.push(...ignoreFile)
   }
   const rootName = rootDir.split('\\').at(-1)!

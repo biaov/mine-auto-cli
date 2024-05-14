@@ -1,10 +1,13 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import rollupPluginCopy from './scripts/rollup-plugin-copy'
+import pkg from './package.json'
 
 const { dirname } = import.meta
 
 const outDir = resolve(dirname, './dist/dist')
+
+const external = Object.keys(pkg.dependencies)
 
 export default defineConfig({
   root: dirname,
@@ -22,7 +25,7 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['update-notifier', 'url', 'path', 'child_process', 'fs', 'chalk', 'commander', 'log-symbols', 'ora', 'pacote', 'strip-json-comments'],
+      external: [...external, 'path', 'child_process', 'fs'],
       output: {
         entryFileNames: '[name].js'
       },

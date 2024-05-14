@@ -1,3 +1,5 @@
+import './init'
+import './git'
 import './mkdir'
 import './check'
-
+import './comment'

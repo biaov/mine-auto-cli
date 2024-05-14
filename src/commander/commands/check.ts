@@ -3,35 +3,13 @@ import { readFileSync, existsSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import chalk from 'chalk'
 import pacote from 'pacote'
-import stripJsonComments from 'strip-json-comments'
 import { success, error, info } from '@/utils/log'
+import { getAutoCliConfig } from '@/utils/functions'
 import type { NPMResponse } from '@/types'
-import type { DefaultConfig, VersionLog } from '../types'
+import type { VersionLog } from '../types'
 
-const fileOption: Record<string, string> = { encoding: 'utf-8' }
-
-const checkConfigDefault = readFileSync(resolve(import.meta.dirname, './check.config.jsonc')).toString()
-const defaultConfig: DefaultConfig = JSON.parse(stripJsonComments(checkConfigDefault.toString()))
-const checkConfigName = 'check.config.jsonc'
-const jsonFiles = [checkConfigName, 'package.json']
-const [checkConfigPath, packagePath] = jsonFiles.map(name => resolve(process.cwd(), name))
-
-/**
- * 初始化
- */
-const initConfigJson = () => {
-  info()
-  if (existsSync(checkConfigPath)) {
-    info(chalk.yellow(`${checkConfigName} 文件已存在`))
-    info()
-    info(chalk.yellow(`文件目录  ${checkConfigPath}`))
-    return
-  }
-  writeFileSync(checkConfigPath, checkConfigDefault)
-  success(`${checkConfigName} 文件创建成功`)
-  info()
-  info(chalk.green(`文件目录  ${checkConfigPath}`))
-}
+const userConfig = getAutoCliConfig()
+const [packagePath] = ['package.json'].map(name => resolve(process.cwd(), name))
 
 /**
  * 进度条日志
@@ -49,7 +27,7 @@ const progressLog = (progress: number, total: number) => {
  */
 const getVersionLog = (name: string, value: string, distTags: NPMResponse['dist-tags']) => {
   let tag = 'latest'
-  defaultConfig.resolve.some(item => {
+  userConfig.resolve.some(item => {
     const spaceIndex = item.lastIndexOf('@')
     if (spaceIndex <= 0) return true
     const curName = item.slice(0, spaceIndex)
@@ -59,7 +37,7 @@ const getVersionLog = (name: string, value: string, distTags: NPMResponse['dist-
       return true
     }
   })
-  const newVersion = defaultConfig.prefix + distTags[tag]
+  const newVersion = userConfig.prefix + distTags[tag]
   return { name, value, newVersion, tag }
 }
 
@@ -74,13 +52,18 @@ const getSpace = (length: number, maxLength: number) => Array.from({ length: max
 const getValueLength = (value: string, i: number) => (+!i + 1) * value.length
 
 /**
+ * 解析版本号
+ */
+const parseVersion = (version: string) => version.match(/\d.+/g)![0].split('.')
+
+/**
  * 格式化版本
  */
 export const formatterVersion = (oldVersion: string, newVersion: string): string | false => {
-  const oldV = oldVersion.match(/\d.+/g)![0].split('.')
-  const newV = newVersion.match(/\d.+/g)![0].split('.')
+  const oldV = parseVersion(oldVersion)
+  const newV = parseVersion(newVersion)
   const index = newV.slice(0, -1).findIndex((item, i) => +item > +oldV[i])
-  const mainName = defaultConfig.prefix + newV[0]
+  const mainName = userConfig.prefix + newV[0]
   switch (index) {
     case 0:
       return chalk.red(newVersion)
@@ -151,7 +134,7 @@ const taskProgress = async (allPackages: Record<string, string>, keys: string[],
     /**
      * 获取包最新消息
      */
-    const data = await pacote.packument(name, { registry: defaultConfig.registry })
+    const data = await pacote.packument(name, { registry: userConfig.registry })
 
     /**
      * 获取日志信息
@@ -182,14 +165,11 @@ const taskProgress = async (allPackages: Record<string, string>, keys: string[],
 /**
  * 升级
  */
-const simplifyUpgrade = async ({ update, init }: Record<string, boolean>) => {
-  if (init) return initConfigJson()
+const simplifyUpgrade = async ({ update }: Record<string, boolean>) => {
   if (!existsSync(packagePath)) return error('package.json 文件不存在')
 
-  existsSync(checkConfigPath) && Object.assign(defaultConfig, JSON.parse(stripJsonComments(readFileSync(checkConfigPath, fileOption).toString())))
-
-  const newUpdate = update || defaultConfig.check
-  const packageJsonString = readFileSync(packagePath, fileOption).toString()
+  const newUpdate = update || userConfig.check
+  const packageJsonString = readFileSync(packagePath).toString()
   const packageJson: Record<string, any> = JSON.parse(packageJsonString)
   const keys = ['dependencies', 'devDependencies', 'optionalDependencies']
   const allPackages: Record<string, string> = {}
@@ -201,7 +181,7 @@ const simplifyUpgrade = async ({ update, init }: Record<string, boolean>) => {
   keys.forEach(key => {
     if (!packageJson[key]) return
     Object.entries(packageJson[key]).forEach(([key, value]) => {
-      !defaultConfig.reject.includes(key) && (allPackages[key] = value as string)
+      !userConfig.reject.includes(key) && (allPackages[key] = value as string)
     })
   })
 
@@ -225,9 +205,4 @@ const simplifyUpgrade = async ({ update, init }: Record<string, boolean>) => {
   outVersionLog(versionLogs)
 }
 
-program
-  .command('check')
-  .option('-u, --update', `更新 package.json 依赖内容 或者配置 ${checkConfigName} 文件`, false)
-  .option('-i, --init', `仅初始化 ${checkConfigName} 文件，不检查依赖版本`, false)
-  .description('升级 package.json 依赖版本')
-  .action(simplifyUpgrade)
+program.command('check').option('-u, --update', `更新 package.json 依赖内容`, false).description('升级 package.json 依赖版本').action(simplifyUpgrade)

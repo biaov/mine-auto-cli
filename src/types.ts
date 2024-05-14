@@ -24,3 +24,20 @@ export interface MkdirTree {
 export interface NPMResponse {
   'dist-tags': Record<string, string>
 }
+
+/**
+ * defaultConfig
+ */
+export interface DefaultConfig {
+  prefix: string
+  registry: string
+  check: boolean
+  reject: string[]
+  resolve: string[]
+  comment: Record<string, string>
+}
+
+/**
+ * auto-cli 配置名称
+ */
+export type AutoCliNameExt = 'jsonc' | 'yml'

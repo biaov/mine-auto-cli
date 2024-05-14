@@ -3,5 +3,6 @@
   "registry": "https://registry.npmmirror.com/", // 依赖来源，默认为 `https://registry.npmmirror.com/`
   "check": false, // 是否更新 `package.json` 文件，为 `true` 时等同于 `auto check -u`, `-u` 优先级最 高， 默认为 `false`
   "reject": [], // 拒绝检查的依赖，默认为 `[]`
-  "resolve": [] // 指定版本检查的标签，默认为 `[]`，例如：['mine-auto-cli@beta']，默认标签为 `latest`
+  "resolve": [], // 指定版本检查的标签，默认为 `[]`，例如：['mine-auto-cli@beta']，默认标签为 `latest`
+  "comment": {} // 配置依赖解析说明预设
 }

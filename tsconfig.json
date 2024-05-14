@@ -13,7 +13,7 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["esnext"],
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
