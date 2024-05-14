@@ -9,12 +9,12 @@ import { autoCliName } from '@/config'
 /**
  * 初始化配置文件
  */
-const simplifyInit = ({ yml, uncomment }: Record<string, boolean>) => {
+const simplifyInit = ({ yml, uncomment, force }: Record<string, boolean>) => {
   info()
   const fileName = autoCliName(yml ? 'yml' : 'jsonc')
   const filePath = resolve(process.cwd(), fileName)
 
-  if (existsSync(filePath)) {
+  if (existsSync(filePath) && !force) {
     info(chalk.yellow(`${fileName} 文件已存在`))
     info()
     info(chalk.yellow(`文件目录  ${filePath}`))

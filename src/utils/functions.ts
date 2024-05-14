@@ -63,7 +63,7 @@ export const FormatePreset = (presetInfo: Partial<PresetInfo>): string[] =>
 export const loadJSONCFile = <T extends Record<string, any> | string = Record<string, any>>(path: string, uncomment = false): T => {
   if (!existsSync(path)) return (uncomment ? {} : '') as T
   const content = readFileSync(path).toString()
-  return (uncomment ? stripJsonComments(content) : content) as T
+  return (uncomment ? JSON.parse(stripJsonComments(content)) : content) as T
 }
 
 /**
@@ -90,21 +90,28 @@ export const loadDefaultConfig = <T extends Record<string, any> | string>(uncomm
 export const getAutoCliConfig = () => {
   const [jsonCPath, ymlPath] = [autoCliName(), autoCliName('yml')].map(name => resolve(process.cwd(), name))
 
-  return Object.assign(loadDefaultConfig(), loadYMLFile(ymlPath), loadJSONCFile(jsonCPath)) as DefaultConfig
+  const defaultConfig = loadDefaultConfig<DefaultConfig>(true)
+
+  try {
+    Object.assign(defaultConfig, loadYMLFile(ymlPath), loadJSONCFile(jsonCPath, true))
+  } catch {}
+
+  return defaultConfig
 }
 
 /**
  * 加载默认配置文件内容
  */
 export const getDefaultConfigFile = (name: string, uncomment = false) => {
-  const content = uncomment ? loadDefaultConfig<string>(true) : loadDefaultConfig().toString()
+  let content = loadDefaultConfig(uncomment)
+  uncomment && (content = JSON.stringify(content, null, 2))
   if (name.includes('.yml')) {
-    return content
+    return (content as string)
       .trim()
       .split('\n')
       .slice(1, -1)
       .reduce((prev, item) => prev + item.trim().replace(/[",]/g, '').replace('// ', '# ') + '\n', '')
   } else {
-    return content
+    return content as string
   }
 }
