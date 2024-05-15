@@ -54,26 +54,30 @@ const getValueLength = (value: string, i: number) => (+!i + 1) * value.length
 /**
  * 解析版本号
  */
-const parseVersion = (version: string) => version.match(/\d.+/g)![0].split('.')
+const parseVersion = (version: string) => {
+  const [major = 0, minor = 0, patch = 0] = version.match(/\d.+/g)![0].split('.')
+  return [+major, +minor, +patch]
+}
 
 /**
  * 格式化版本
  */
 export const formatterVersion = (oldVersion: string, newVersion: string): string | false => {
-  const oldV = parseVersion(oldVersion)
-  const newV = parseVersion(newVersion)
-  const index = newV.slice(0, -1).findIndex((item, i) => +item > +oldV[i])
-  const mainName = userConfig.prefix + newV[0]
-  switch (index) {
-    case 0:
-      return chalk.red(newVersion)
-    case 1:
-      return `${mainName}.${chalk.yellow(newV[1])}.${chalk.yellow(newV[2])}`
-    default:
-      const oldVLast = oldV.at(-1) as string
-      const newVLast = newV.at(-1) as string
-      return oldVLast !== newVLast && parseInt(newVLast) >= parseInt(oldVLast) ? `${mainName}.${newV[1]}.${chalk.green(newV[2])}` : false
-  }
+  /**
+   * 旧版本
+   */
+  const [oldMajor, oldMinor, oldPatch] = parseVersion(oldVersion)
+  /**
+   * 新版本
+   */
+  const [newMajor, newMinor, newPatch] = parseVersion(newVersion)
+
+  if (newMajor > oldMajor) return chalk.red(newVersion)
+  if (newMajor < oldMajor) return false
+  if (newMinor > oldMinor) return `${newMajor}.${chalk.yellow(newMinor)}.${chalk.yellow(newPatch)}`
+  if (newMinor < oldMinor) return false
+  if (newPatch > oldPatch) return `${newMajor}.${newMinor}.${chalk.green(newPatch)}`
+  return false
 }
 
 /**

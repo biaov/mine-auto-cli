@@ -24,7 +24,7 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           cd dist
           if [[ "$VERSION" == *"beta"* ]]; then
-            npm publish --tag=beta-v2
+            npm publish --tag=beta
           else
             npm publish
           fi

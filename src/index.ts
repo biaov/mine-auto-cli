@@ -5,8 +5,7 @@ import chalk from 'chalk'
 import pkg from '../package.json'
 import './commander' // 命令
 
-const notifier = updateNotifier({ pkg })
-
+const notifier = updateNotifier({ pkg, updateCheckInterval: 1000 * 60 })
 if (notifier.update && notifier.update.latest !== pkg.version) {
   let msg = ''
   switch (notifier.update.type) {
