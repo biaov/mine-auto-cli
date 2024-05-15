@@ -1,4 +1,4 @@
-name: 发布 npm 包
+name: 发布 NPM 包
 
 on:
   push:
