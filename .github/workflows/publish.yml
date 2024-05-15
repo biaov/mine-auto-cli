@@ -1,4 +1,4 @@
-name: Publish Package to npmjs
+name: 发布 NPM 包
 
 on:
   push:
