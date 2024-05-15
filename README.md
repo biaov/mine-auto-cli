@@ -154,9 +154,9 @@ auto check
 
 ![img](./assets/check.png)
 
-#### 生成依赖注释文件
+### 生成依赖注释文件
 
-- 可以在工作目录生成 `directory.md` 文件
+- 可以在工作目录生成 `comment.md` 文件
 
 ```sh
 auto comment
