@@ -193,6 +193,7 @@ auto comment
 - `commander`: 命令
 - `log-symbols`: 图标
 - `ora`: 动画效果
+- `semver-utils`: 解析包版本
 - `pacote`: 包信息请求器
 - `strip-json-comments`: 移除 json 注释
 - `update-notifier`: 检查更新
@@ -201,6 +202,7 @@ auto comment
 
 - `@types/node`: `node` 类型
 - `@types/pacote`: `pacote` 类型
+- `@types/semver-utils`: `semver-utils` 类型
 - `@types/update-notifier`: `update-notifier` 类型
 - `prettier`: 格式化工具
 - `typescript`: 编程语言

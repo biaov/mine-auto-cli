@@ -3,6 +3,7 @@ import { readFileSync, existsSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import chalk from 'chalk'
 import pacote from 'pacote'
+import { parseRange } from 'semver-utils'
 import { success, error, info } from '@/utils/log'
 import { getAutoCliConfig } from '@/utils/functions'
 import type { NPMResponse } from '@/types'
@@ -55,8 +56,9 @@ const getValueLength = (value: string, i: number) => (+!i + 1) * value.length
  * 解析版本号
  */
 const parseVersion = (version: string) => {
-  const [major = 0, minor = 0, patch = 0] = version.match(/\d.+/g)![0].split('.')
-  return [+major, +minor, +patch]
+  const [{ major = 0, minor = 0, patch = 0, release = '' }] = parseRange(version)
+  // const [major = 0, minor = 0, patch = 0] = version.match(/\d.+/g)![0].split('.')
+  return [+major, +minor, +patch, release]
 }
 
 /**
@@ -66,17 +68,18 @@ export const formatterVersion = (oldVersion: string, newVersion: string): string
   /**
    * 旧版本
    */
-  const [oldMajor, oldMinor, oldPatch] = parseVersion(oldVersion)
+  const [oldMajor, oldMinor, oldPatch, oldRelease] = parseVersion(oldVersion)
   /**
    * 新版本
    */
-  const [newMajor, newMinor, newPatch] = parseVersion(newVersion)
+  const [newMajor, newMinor, newPatch, newRelease] = parseVersion(newVersion)
 
   if (newMajor > oldMajor) return chalk.red(newVersion)
   if (newMajor < oldMajor) return false
   if (newMinor > oldMinor) return `${newMajor}.${chalk.yellow(newMinor)}.${chalk.yellow(newPatch)}`
   if (newMinor < oldMinor) return false
   if (newPatch > oldPatch) return `${newMajor}.${newMinor}.${chalk.green(newPatch)}`
+  if (newPatch === oldPatch && newRelease && newRelease !== oldRelease) return `${newMajor}.${newMinor}.${newPatch}-${chalk.green(newRelease)}`
   return false
 }
 
