@@ -1,16 +1,11 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import external from './scripts/external'
 import rollupPluginCopy from './scripts/rollup-plugin-copy'
-import pkg from './package.json'
 
 const { dirname } = import.meta
 
-const outDir = resolve(dirname, './dist/dist')
-
-const external = Object.keys(pkg.dependencies)
-
 export default defineConfig({
-  root: dirname,
   resolve: {
     alias: {
       '@': resolve(dirname, './src'),
@@ -19,9 +14,9 @@ export default defineConfig({
   },
   build: {
     target: 'node20',
-    outDir,
+    outDir: './dist/dist',
     lib: {
-      entry: resolve(dirname, './src/index.ts'),
+      entry: './src/index.ts',
       formats: ['es']
     },
     rollupOptions: {
