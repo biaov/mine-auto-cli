@@ -1,6 +1,7 @@
+import type { InputPluginOption } from 'rollup'
 import { writeFileSync, copyFileSync, existsSync, readdirSync, mkdirSync, statSync, unlinkSync } from 'fs'
 import { join } from 'path'
-import pkg from '../package.json' assert { type: 'json' }
+import pkg from '../package.json'
 
 /**
  * 重写 package.json
@@ -11,7 +12,7 @@ export const rewritePackage = () => {
    */
   const output = 'dist'
 
-  pkg.devDependencies = pkg.scripts = {} as any
+  Object.assign(pkg, { devDependencies: {}, scripts: {} })
 
   /**
    * 写入最新的
@@ -61,7 +62,7 @@ export const copyAssets = () => {
   })
 }
 
-export default () => ({
+export default (): InputPluginOption => ({
   name: 'rollup-plugin-copy',
   closeBundle() {
     rewritePackage()
