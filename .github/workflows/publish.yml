@@ -18,7 +18,7 @@ jobs:
           node-version: '20.12.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm install -g npm
-      - run: npm ci
+      - run: npm i
       - run: npm run build
       - run: |
           VERSION=$(node -p "require('./package.json').version")
