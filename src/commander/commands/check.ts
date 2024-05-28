@@ -176,6 +176,7 @@ const simplifyUpgrade = async ({ update }: Record<string, boolean>) => {
   if (!existsSync(packagePath)) return error('package.json 文件不存在')
 
   const newUpdate = update || userConfig.check
+
   const packageJsonString = readFileSync(packagePath).toString()
   const packageJson: Record<string, any> = JSON.parse(packageJsonString)
   const keys = ['dependencies', 'devDependencies', 'optionalDependencies']
@@ -204,12 +205,12 @@ const simplifyUpgrade = async ({ update }: Record<string, boolean>) => {
     writeFileSync(packagePath, JSON.stringify(newPackages, null, 2))
     success('文件 package.json 已更新')
     info()
+  } else {
+    /**
+     * 输出包信息
+     */
+    outVersionLog(versionLogs)
   }
-
-  /**
-   * 输出包信息
-   */
-  outVersionLog(versionLogs)
 }
 
 program.command('check').option('-u, --update', `更新 package.json 依赖内容`, false).description('升级 package.json 依赖版本').action(simplifyUpgrade)
