@@ -18,6 +18,7 @@
 - [x] [生成工作目录结构文件](#生成工作目录结构文件)
 - [x] [检查 `package.json` 依赖版本](#检查-packagejson-依赖版本)
 - [x] [生成依赖注释文件](#生成依赖注释文件)
+- [x] [更新 `.vscode` 文件](#更新-vscode-文件)
 
 ## 全局安装
 
@@ -179,6 +180,12 @@ auto comment
 #### optionalDependencies
 
 - `@rollup/rollup-linux-x64-gnu`:
+```
+
+### 更新 `.vscode` 文件
+
+```sh
+auto vscode-config
 ```
 
 ### 技术栈
