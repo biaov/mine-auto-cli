@@ -19,6 +19,7 @@
 - [x] [检查 `package.json` 依赖版本](#检查-packagejson-依赖版本)
 - [x] [生成依赖注释文件](#生成依赖注释文件)
 - [x] [更新 `.vscode` 文件](#更新-vscode-文件)
+- [x] [切换 Node 版本](#切换-node-版本)
 
 ## 全局安装
 
@@ -188,6 +189,21 @@ auto comment
 auto vscode-config
 ```
 
+### 切换 Node 版本
+
+- 基于 nvm 快速切换 node 版本
+- 当我们运行的项目过多并且版本还不一致时，此命令可以用于快速切换
+- 默认选择第一个版本号
+
+```sh
+# 命令
+auto node [版本号]
+# 切换为 20 开头的版本
+auto node 20
+# 切换为 20.12.1 的版本
+auto node 20.12.1
+```
+
 ### 技术栈
 
 - `Vite` + `TypeScript` + `NodeJs`
@@ -198,15 +214,19 @@ auto vscode-config
 
 - `chalk`: 字体颜色
 - `commander`: 命令
+- `download-git-repo`: 下载 Git 仓库
+- `inquirer`: 用户交互
+- `js-yaml`: 解析 .yml 文件
 - `log-symbols`: 图标
 - `ora`: 动画效果
-- `semver-utils`: 解析包版本
 - `pacote`: 包信息请求器
+- `semver-utils`: 解析包版本
 - `strip-json-comments`: 移除 json 注释
 - `update-notifier`: 检查更新
 
 #### devDependencies
 
+- `@types/js-yaml`: `js-yaml` 类型
 - `@types/node`: `node` 类型
 - `@types/pacote`: `pacote` 类型
 - `@types/semver-utils`: `semver-utils` 类型
