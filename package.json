@@ -1,7 +1,7 @@
 {
   "name": "mine-auto-cli",
   "private": false,
-  "version": "2.6.1",
+  "version": "2.6.2",
   "exports": "./dist/index.js",
   "main": "./dist/index.js",
   "type": "module",
