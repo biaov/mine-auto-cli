@@ -3,13 +3,11 @@ import { resolve } from 'path'
 import external from './scripts/external'
 import rollupPluginCopy from './scripts/rollup-plugin-copy'
 
-const { dirname } = import.meta
-
 export default defineConfig({
   resolve: {
     alias: {
-      '@': resolve(dirname, './src'),
-      '~': resolve(dirname, './')
+      '@': resolve(import.meta.dirname, './src'),
+      '~': resolve(import.meta.dirname, './')
     }
   },
   build: {
