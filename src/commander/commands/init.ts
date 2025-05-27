@@ -29,7 +29,7 @@ const simplifyInit = ({ yml, uncomment, force }: Record<string, boolean>) => {
 program
   .command('init')
   .option('-f, --force', `强制替换 ${autoCliName()} 文件内容`, false)
-  .option('-unc, --uncomment', `取消生成 ${autoCliName()} 带注释`, false)
+  .option('--unc, --uncomment', `取消生成 ${autoCliName()} 带注释`, false)
   .option('-y, --yml', `生成 ${autoCliName('yml')} 文件`, false)
   .description('初始化配置文件')
   .action(simplifyInit)
