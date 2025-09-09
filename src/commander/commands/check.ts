@@ -62,6 +62,11 @@ const parseVersion = (version: string) => {
 }
 
 /**
+ * 获取分隔符
+ */
+const getSeparator = (newRelease: string | number, color: 'green' | 'yellow') => (newRelease ? '-' + chalk[color](newRelease) : '')
+
+/**
  * 格式化版本
  */
 export const formatterVersion = (oldVersion: string, newVersion: string): string | false => {
@@ -76,10 +81,10 @@ export const formatterVersion = (oldVersion: string, newVersion: string): string
 
   if (newMajor > oldMajor) return chalk.red(newVersion)
   if (newMajor < oldMajor) return false
-  if (newMinor > oldMinor) return `${newMajor}.${chalk.yellow(newMinor)}.${chalk.yellow(newPatch)}`
+  if (newMinor > oldMinor) return `${newMajor}.${chalk.yellow(newMinor)}.${chalk.yellow(newPatch)}${getSeparator(newRelease, 'yellow')}`
   if (newMinor < oldMinor) return false
-  if (newPatch > oldPatch) return `${newMajor}.${newMinor}.${chalk.green(newPatch)}`
-  if (newPatch === oldPatch && newRelease && newRelease !== oldRelease) return `${newMajor}.${newMinor}.${newPatch}-${chalk.green(newRelease)}`
+  if (newPatch > oldPatch) return `${newMajor}.${newMinor}.${chalk.green(newPatch)}${getSeparator(newRelease, 'green')}`
+  if (newPatch === oldPatch && newRelease && newRelease !== oldRelease) return `${newMajor}.${newMinor}.${newPatch}${getSeparator(newRelease, 'green')}`
   return false
 }
 
