@@ -2,6 +2,8 @@ name: Publish Package To NpmJs
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
