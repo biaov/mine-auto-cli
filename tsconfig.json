@@ -22,5 +22,5 @@
     }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", ".git"]
+  "exclude": ["node_modules", "dist", ".git", "*.md"]
 }
