@@ -1,4 +1,4 @@
-name: 发布 NPM 包
+name: Publish Package To NpmJs
 
 on:
   push:
@@ -17,12 +17,11 @@ jobs:
         with:
           node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install -g npm
       - run: npm i
       - run: npm run build
       - run: |
           VERSION=$(node -p "require('./package.json').version")
-          cd dist
+          cd dist/packages
           if [[ "$VERSION" == *"beta"* ]]; then
             npm publish --tag=beta
           else
