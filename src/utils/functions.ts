@@ -115,3 +115,8 @@ export const getDefaultConfigFile = (name: string, uncomment = false) => {
     return content as string
   }
 }
+
+/**
+ * 获取空格
+ */
+export const getSeparatorStr = (length: number, maxLength: number, separator = ' ') => Array.from({ length: maxLength - length }, () => separator).join('')

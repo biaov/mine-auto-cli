@@ -72,7 +72,7 @@ export const simplifyMkdir = ({ line, name }: Record<string, string | boolean>) 
   const children = dirs.map(dir => {
     const { name } = dir
     const item: MkdirTree = { name }
-    !topIgnore.includes(name) && dir.isDirectory() && (item.children = sort(join(dir.path, name)).map(({ name }) => ({ name })))
+    !topIgnore.includes(name) && dir.isDirectory() && (item.children = sort(join((dir as unknown as { path: string }).path, name)).map(({ name }) => ({ name })))
     return item
   })
 

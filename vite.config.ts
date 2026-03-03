@@ -18,7 +18,7 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: [...external, 'path', 'child_process', 'fs'],
+      external: [...external, 'path', 'child_process', 'fs', 'os'],
       output: {
         entryFileNames: '[name].js'
       },

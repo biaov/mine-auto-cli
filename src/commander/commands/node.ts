@@ -47,7 +47,7 @@ const installNode = (version?: string) => {
 /**
  * 切换 node 版本
  */
-export const simplifyNodeSwitch = (version: string, option: Option) => {
+const simplifyNodeSwitch = (version: string, option: Option) => {
   const res = execSync('nvm ls').toString()
   const allVersion = parseRange(res)
   const [{ major, minor, patch }] = parseRange(version)

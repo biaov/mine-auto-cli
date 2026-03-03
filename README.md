@@ -20,6 +20,7 @@
 - [x] [生成依赖注释文件](#生成依赖注释文件)
 - [x] [更新 `.vscode` 文件](#更新-vscode-文件)
 - [x] [切换 Node 版本](#切换-node-版本)
+- [x] [切换 AI 模型](#切换-ai-模型)
 
 ## 全局安装
 
@@ -53,7 +54,6 @@ auto init
 ```
 
 - 字段解析：
-
   - `prefix`: 版本前缀，默认为 `^`
   - `registry`: 依赖来源，默认为 `https://registry.npmmirror.com/`
   - `check`: 是否更新 `package.json` 文件，为 `true` 时等同于 `auto check -u`, `-u` 优先级最高， 默认为 `false`
@@ -202,6 +202,25 @@ auto node [版本号]
 auto node 20
 # 切换为 20.12.1 的版本
 auto node 20.12.1
+```
+
+### 切换 AI 模型
+
+- 基于 claude code 切换 ai 模型
+- 初始化、切换模型、查看模型
+
+```sh
+# 初始化
+auto ai init
+
+# 查看已配置的模型
+auto ai ls
+
+# 切换模型
+auto ai use deepseek
+
+# 查看命令更多帮助信息
+auto ai -h
 ```
 
 ### 技术栈

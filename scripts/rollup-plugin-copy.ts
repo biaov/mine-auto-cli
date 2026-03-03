@@ -54,7 +54,7 @@ export const copyAssets = () => {
   /**
    * 根目录需要复制的文件和目录
    */
-  const filePaths = ['bin', 'README.md', 'LICENSE', 'src/config/auto-cli.jsonc']
+  const filePaths = ['bin', 'README.md', 'LICENSE', 'src/config/auto-cli.jsonc', 'src/config/ai.jsonc']
   filePaths.forEach(path => {
     const destName = path.split('/').at(-1)
     const dest = path.includes('src') ? 'dist/' : ''

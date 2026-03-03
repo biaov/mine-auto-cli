@@ -1,0 +1,13 @@
+{
+  "你的模型": {
+    // 模型环境变量配置
+    "env": {
+      "ANTHROPIC_BASE_URL": "https://api.你的模型.com/anthropic", // 模型 API 基础 URL
+      "ANTHROPIC_AUTH_TOKEN": "你的 token", // 模型 API 认证 token
+      "API_TIMEOUT_MS": "600000", // API 请求超时时间，单位毫秒，默认为 10 分钟
+      "ANTHROPIC_MODEL": "你的模型名称", // 模型名称
+      "ANTHROPIC_SMALL_FAST_MODEL": "你的模型名称", // 小模型名称
+      "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1" // 是否禁用非必要流量，默认为 `1`
+    }
+  }
+}

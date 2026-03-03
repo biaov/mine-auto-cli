@@ -5,7 +5,7 @@ import chalk from 'chalk'
 import pacote from 'pacote'
 import { parseRange } from 'semver-utils'
 import { success, error, info } from '@/utils/log'
-import { getAutoCliConfig } from '@/utils/functions'
+import { getAutoCliConfig, getSeparatorStr } from '@/utils/functions'
 import type { NPMResponse } from '@/types'
 import type { VersionLog } from '../types'
 
@@ -41,11 +41,6 @@ const getVersionLog = (name: string, value: string, distTags: NPMResponse['dist-
   const newVersion = userConfig.prefix + distTags[tag]
   return { name, value, newVersion, tag }
 }
-
-/**
- * 获取空格
- */
-const getSpace = (length: number, maxLength: number) => Array.from({ length: maxLength - length }, () => ' ').join('')
 
 /**
  * 获取长度
@@ -103,7 +98,7 @@ const outVersionLog = (versionLogs: VersionLog[]) => {
 
   const outLog: string[] = []
   versionLogs.forEach(({ name, value, newVersion, tag }, i) => {
-    const [nameSpace, valueSpace, newVersionSpace, tagSpace] = Object.entries({ name, value, newVersion, tag }).map(([key, value]) => getSpace(getValueLength(value, i), fieldMax[key]))
+    const [nameSpace, valueSpace, newVersionSpace, tagSpace] = Object.entries({ name, value, newVersion, tag }).map(([key, value]) => getSeparatorStr(getValueLength(value, i), fieldMax[key]))
     let spacer = chalk.yellow('→')
     let showLog = true
     if (i) {
