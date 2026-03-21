@@ -2,9 +2,10 @@ import { program } from 'commander'
 import chalk from 'chalk'
 import { success, info, error } from '@/utils/log'
 import { loadJSONCFile, getSeparatorStr } from '@/utils/functions'
-import { readFileSync, existsSync, writeFileSync } from 'fs'
+import { readFileSync, existsSync, writeFileSync, cpSync } from 'fs'
 import { resolve } from 'path'
 import os from 'os'
+import { execSync } from 'child_process'
 
 interface InitAIEnv {
   env: {
@@ -127,7 +128,63 @@ const useAIModel = async (value: string) => {
   }
 }
 
+/**
+ * 获取 Claude Code CLI 路径
+ */
+const getCliPath = () => {
+  const pkgname = '@anthropic-ai/claude-code'
+  try {
+    const log = execSync(`npm list -g ${pkgname} --depth=0`)
+    const result = log.toString().trim().includes(pkgname)
+    if (!result) {
+      error(chalk.red(`请使用 nodejs 安装 ${pkgname}`))
+      process.exit(1)
+    }
+    const npmRoot = execSync('npm root -g').toString().trim()
+    const cliPath = resolve(npmRoot, pkgname, 'cli.js')
+    const cliPathBak = resolve(npmRoot, pkgname, 'cli.bak.js')
+    !existsSync(cliPathBak) && cpSync(cliPath, cliPathBak)
+    return { cliPath, cliPathBak }
+  } catch {
+    error(chalk.red(`请使用 nodejs 安装 ${pkgname}`))
+    process.exit(1)
+  }
+}
+
+/**
+ * 汉化 Claude Code
+ */
+const useZH = async () => {
+  info()
+  info('开始汉化 Claude Code')
+  const { cliPath } = getCliPath()
+  const content = readFileSync(cliPath).toString()
+  const keyword = (await import('@/config/keyword')).default
+  const newContent = Object.entries(keyword).reduce((prev, [key, value]) => {
+    const escapedKey = key.replace(/\n/g, '\\\\n').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const newValue = value.replace(/\n/g, '\\n')
+    return escapedKey[0] === '`'
+      ? prev.replace(new RegExp(escapedKey), value)
+      : prev.replace(new RegExp(`\"${escapedKey}\"`, 'g'), `\"${newValue}\"`).replace(new RegExp(`(\'${escapedKey}\')`, 'g'), `\'${newValue}\'`)
+  }, content)
+  writeFileSync(cliPath, newContent)
+  success('Claude Code 已汉化')
+}
+
+/**
+ *  Claude Code 恢复成英文
+ */
+const useZHRestore = () => {
+  info()
+  info('开始恢复 Claude Code')
+  const { cliPath, cliPathBak } = getCliPath()
+  cpSync(cliPathBak, cliPath)
+  success('Claude Code 已恢复成英文')
+}
+
 const aiCommand = program.command('ai').description('AI 命令，详细操作请查看 ai -h').helpOption('-h, --help', '输出所有命令').helpCommand(false)
 aiCommand.command('init').description('初始化 AI 模型配置').action(initAIModelConfig)
 aiCommand.command('ls').description('查看当前已配置的 AI 模型').action(lsAIModel)
 aiCommand.command('use <模型>').description('切换 AI 模型').action(useAIModel)
+aiCommand.command('zh').description('汉化 Claude Code').action(useZH)
+aiCommand.command('zh-restore').description('恢复汉化 Claude Code').action(useZHRestore)
