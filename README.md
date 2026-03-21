@@ -21,6 +21,7 @@
 - [x] [更新 `.vscode` 文件](#更新-vscode-文件)
 - [x] [切换 Node 版本](#切换-node-版本)
 - [x] [切换 AI 模型](#切换-ai-模型)
+- [x] [汉化 Claude Code](#汉化-claude-code)
 
 ## 全局安装
 
@@ -221,6 +222,16 @@ auto ai use deepseek
 
 # 查看命令更多帮助信息
 auto ai -h
+```
+
+### 汉化 Claude Code
+
+```sh
+# 汉化 Claude Code
+auto ai zh
+
+# Claude Code 还原成英文
+auto ai zh-restore
 ```
 
 ### 技术栈
