@@ -23,9 +23,13 @@ export default {
   'Auto-install IDE extension': '自动安装 IDE 扩展',
   'Enable Claude in Chrome by default': '默认启用 Chrome 中的 Claude',
 
+  Usage: '使用量',
+  Status: '状态',
+  Config: '配置',
   'Search settings...': '搜索设置',
   ' more above': ' 条在上方',
   ' more below': ' 条在下方',
+  'more below': '条在下方',
   'Esc to cancel': 'Esc 取消',
   'Edit and press Enter to retry, or Esc to cancel': '编辑后按 Enter 重试，或按 Esc 取消',
   'Enter to submit · Esc to cancel': 'Enter 提交 · Esc 取消',
@@ -35,7 +39,9 @@ export default {
   'Esc to cancel · r to cycle dates': 'Esc 取消 · r 切换日期',
   '· Esc to cancel': '· Esc 取消',
   'Enter to confirm · Esc to cancel': 'Enter 确认 · Esc 取消',
+  '/usage is only available for subscription plans.': '/usage 仅适用于订阅计划',
 
+  // 主要
   'Welcome back!': '欢迎回来!',
   'API Usage Billing': 'API 使用计费',
   'Tips for getting started': '入门技巧',
@@ -108,5 +114,21 @@ export default {
   'Use this skill to configure the Claude Code harness via settings.json. Automated behaviors ("from now on when X", "each time X", "whenever X", "before/after X") require hooks configured in settings.json - the harness executes these, not Claude, so memory/preferences cannot fulfill them. Also use for: permissions ("allow X", "add permission", "move permission to"), env vars ("set X=Y"), hook troubleshooting, or any changes to settings.json/settings.local.json files. Examples: "allow npm commands", "add bq permission to global settings", "move permission to user settings", "set DEBUG=true", "when claude stops show X". For simple settings like theme/model, use Config tool.':
     '使用此技能通过 settings.json 配置 Claude Code 运行环境。自动化行为（"从现在起每当 X"、"每次 X"、"每当 X"、"在 X 之前/之后"）需要在 settings.json 中配置钩子——由运行环境执行，而非 Claude，因此记忆/偏好设置无法实现这类需求。也适用于：权限管理（"允许 X"、"添加权限"、"移动权限至"）、环境变量（"设置 X=Y"）、钩子排查，或对 settings.json/settings.local.json 的任何修改。示例："允许 npm 命令"、"将 bq 权限添加到全局设置"、"将权限移至用户设置"、"设置 DEBUG=true"、"当 Claude 停止时显示 X"。如需修改主题/模型等简单设置，请使用 Config 工具。',
   '`Toggle fast mode (${Ok} only)`': '`切换快速模式（仅限 ${Ok}）`',
-  '`Set the AI model for Claude Code (currently ${Ej(JK())})`': '`设置 Claude Code 的 AI 模型（当前模型：${Ej(JK())}）`'
+  '`Set the AI model for Claude Code (currently ${Ej(JK())})`': '`设置 Claude Code 的 AI 模型（当前模型：${Ej(JK())}）`',
+
+  // 其他
+  'Type to filter': '输入以过滤',
+  'Type to filter · Enter/↓ select · ↑ tabs · Esc clear': '输入以过滤 · Enter/↓ 选项 · ↑ 切换选项卡 · Esc 清除',
+  '(↓ to select)': '(↓ 选择选项)',
+  '{shortcut:"Enter/↓",action:"select"}': '{shortcut:"Enter/↓",action:"选择"}',
+  '{shortcut:"↑",action:"tabs"}': '{shortcut:"↑",action:"切换选项卡"}',
+  '{action:"confirm:no",context:"Settings",fallback:"Esc",description:"clear"}': '{action:"confirm:no",context:"Settings",fallback:"Esc",description:"清除"}',
+  '{shortcut:"Enter",action:"save"}': '{shortcut:"Enter",action:"保存"}',
+  '{action:"confirm:no",context:"Confirmation",fallback:"Esc",description:"cancel"}': '{action:"confirm:no",context:"Confirmation",fallback:"Esc",description:"取消"}',
+  '{shortcut:"Enter",action:"search"}': '{shortcut:"Enter",action:"搜索"}',
+  '{action:"select:accept",context:"Settings",fallback:"Space",description:"change"}': '{action:"select:accept",context:"Settings",fallback:"Space",description:"改变"}',
+  '{action:"settings:close",context:"Settings",fallback:"Enter",description:"save"}': '{action:"settings:close",context:"Settings",fallback:"Enter",description:"保存"}',
+  '{action:"settings:search",context:"Settings",fallback:"/",description:"search"}': '{action:"settings:search",context:"Settings",fallback:"/",description:"搜索"}',
+  '{action:"confirm:no",context:"Settings",fallback:"Esc",description:"cancel"}': '{action:"confirm:no",context:"Settings",fallback:"Esc",description:"取消"}',
+  '{shortcut:"Esc",action:"cancel"}': '{shortcut:"Esc",action:"取消"}'
 }

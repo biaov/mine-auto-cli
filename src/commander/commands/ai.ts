@@ -163,8 +163,9 @@ const useZH = async () => {
   const newContent = Object.entries(keyword).reduce((prev, [key, value]) => {
     const escapedKey = key.replace(/\n/g, '\\\\n').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const newValue = value.replace(/\n/g, '\\n')
-    return escapedKey[0] === '`'
-      ? prev.replace(new RegExp(escapedKey), value)
+
+    return ['`', '\\'].includes(escapedKey[0])
+      ? prev.replace(new RegExp(escapedKey, 'g'), value)
       : prev.replace(new RegExp(`\"${escapedKey}\"`, 'g'), `\"${newValue}\"`).replace(new RegExp(`(\'${escapedKey}\')`, 'g'), `\'${newValue}\'`)
   }, content)
   writeFileSync(cliPath, newContent)
