@@ -16,6 +16,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          body_path: RELEASE.md
+          body_path: log.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
