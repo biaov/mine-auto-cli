@@ -26,6 +26,7 @@ export default {
   Usage: '使用量',
   Status: '状态',
   Config: '配置',
+  '{key:"stats",title:"Stats"}': '{key:"stats",title:"统计"}',
   'Search settings...': '搜索设置',
   ' more above': ' 条在上方',
   ' more below': ' 条在下方',
@@ -40,6 +41,9 @@ export default {
   '· Esc to cancel': '· Esc 取消',
   'Enter to confirm · Esc to cancel': 'Enter 确认 · Esc 取消',
   '/usage is only available for subscription plans.': '/usage 仅适用于订阅计划',
+  'Show PR status footer': '显示 PR 状态底部',
+  'Claude in Chrome enabled by default': '默认启用 Chrome 中的 Claude',
+  '`Fast mode (${Lu} only)`': '`快速模式（仅限 ${Lu}）`',
 
   // 主要
   'Welcome back!': '欢迎回来!',
@@ -130,5 +134,8 @@ export default {
   '{action:"settings:close",context:"Settings",fallback:"Enter",description:"save"}': '{action:"settings:close",context:"Settings",fallback:"Enter",description:"保存"}',
   '{action:"settings:search",context:"Settings",fallback:"/",description:"search"}': '{action:"settings:search",context:"Settings",fallback:"/",description:"搜索"}',
   '{action:"confirm:no",context:"Settings",fallback:"Esc",description:"cancel"}': '{action:"confirm:no",context:"Settings",fallback:"Esc",description:"取消"}',
-  '{shortcut:"Esc",action:"cancel"}': '{shortcut:"Esc",action:"取消"}'
+  '{shortcut:"Esc",action:"cancel"}': '{shortcut:"Esc",action:"取消"}',
+  'accept edits on': '接受编辑',
+  'accept edits': '接受编辑',
+  'Search settings…': '搜索设置…'
 }
