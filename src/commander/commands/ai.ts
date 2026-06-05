@@ -134,8 +134,8 @@ const useAIModel = async (value: string) => {
 const getCliPath = () => {
   const pkgname = '@anthropic-ai/claude-code'
   try {
-    const log = execSync(`npm list -g ${pkgname} --depth=0`)
-    const result = log.toString().trim().includes(pkgname)
+    const log = execSync(`npm list -g ${pkgname} --depth=0`).toString().trim()
+    const result = log.includes(pkgname)
     if (!result) {
       error(chalk.red(`请使用 nodejs 安装 ${pkgname}`))
       process.exit(1)
@@ -143,8 +143,20 @@ const getCliPath = () => {
     const npmRoot = execSync('npm root -g').toString().trim()
     const cliPath = resolve(npmRoot, pkgname, 'cli.js')
     const cliPathBak = resolve(npmRoot, pkgname, 'cli.bak.js')
-    !existsSync(cliPathBak) && cpSync(cliPath, cliPathBak)
-    return { cliPath, cliPathBak }
+    const exePath = resolve(npmRoot, pkgname, 'bin/claude.exe')
+    const exePathBak = resolve(npmRoot, pkgname, 'bin/claude.bak.exe')
+    /**
+     * 是否存在 exe 文件
+     */
+    let isExistExe = false
+    if (existsSync(exePath)) {
+      !existsSync(exePathBak) && cpSync(exePath, exePathBak)
+      isExistExe = true
+    } else {
+      !existsSync(cliPathBak) && cpSync(cliPath, cliPathBak)
+    }
+
+    return { cliPath, cliPathBak, exePath, exePathBak, isExistExe }
   } catch {
     error(chalk.red(`请使用 nodejs 安装 ${pkgname}`))
     process.exit(1)
@@ -157,18 +169,52 @@ const getCliPath = () => {
 const useZH = async () => {
   info()
   info('开始汉化 Claude Code')
-  const { cliPath } = getCliPath()
-  const content = readFileSync(cliPath).toString()
-  const keyword = (await import('@/config/keyword')).default
-  const newContent = Object.entries(keyword).reduce((prev, [key, value]) => {
-    const escapedKey = key.replace(/\n/g, '\\\\n').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const newValue = value.replace(/\n/g, '\\n')
+  const { cliPath, exePath, exePathBak, isExistExe } = getCliPath()
+  if (isExistExe) {
+    const buffer = readFileSync(exePathBak)
+    const keyword = (await import('@/config/keyword-latest')).default
+    Object.entries(keyword).forEach(([key, value]) => {
+      const enBuf = Buffer.from(key, 'utf8')
+      const cnBuf = Buffer.from(value, 'utf8') // 强制UTF8，保证不乱码
+      const hasMatch = buffer.includes(enBuf)
+      if (!hasMatch) {
+        // console.log(`ℹ️ 未找到：${enBuf} → 跳过/`)
+        return
+      }
 
-    return ['`', '\\'].includes(escapedKey[0])
-      ? prev.replace(new RegExp(escapedKey, 'g'), value)
-      : prev.replace(new RegExp(`\"${escapedKey}\"`, 'g'), `\"${newValue}\"`).replace(new RegExp(`(\'${escapedKey}\')`, 'g'), `\'${newValue}\'`)
-  }, content)
-  writeFileSync(cliPath, newContent)
+      // 安全检查：中文不能比英文长
+      if (cnBuf.length > enBuf.length) {
+        // console.log(`❌ 跳过：${key} → ${value}（中文字节超长）`)
+        return
+      }
+
+      let pos = 0
+
+      // 搜索所有匹配位置并替换
+      while ((pos = buffer.indexOf(enBuf, pos)) !== -1) {
+        // 写入中文
+        cnBuf.copy(buffer, pos)
+        // 多余空间填 0x00 防止损坏EXE
+        buffer.fill(0x20, pos + cnBuf.length, pos + enBuf.length)
+        pos += enBuf.length
+      }
+    })
+
+    // 写入新文件
+    writeFileSync(exePath, buffer)
+  } else {
+    const content = readFileSync(cliPath).toString()
+    const keyword = (await import('@/config/keyword')).default
+    const newContent = Object.entries(keyword).reduce((prev, [key, value]) => {
+      const escapedKey = key.replace(/\n/g, '\\\\n').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      const newValue = value.replace(/\n/g, '\\n')
+
+      return ['`', '\\'].includes(escapedKey[0])
+        ? prev.replace(new RegExp(escapedKey, 'g'), value)
+        : prev.replace(new RegExp(`\"${escapedKey}\"`, 'g'), `\"${newValue}\"`).replace(new RegExp(`(\'${escapedKey}\')`, 'g'), `\'${newValue}\'`)
+    }, content)
+    writeFileSync(cliPath, newContent)
+  }
   success('Claude Code 已汉化')
 }
 
@@ -178,8 +224,13 @@ const useZH = async () => {
 const useZHRestore = () => {
   info()
   info('开始恢复 Claude Code')
-  const { cliPath, cliPathBak } = getCliPath()
-  cpSync(cliPathBak, cliPath)
+  const { cliPath, cliPathBak, exePath, exePathBak, isExistExe } = getCliPath()
+  if (isExistExe) {
+    cpSync(exePathBak, exePath)
+  } else {
+    cpSync(cliPathBak, cliPath)
+  }
+
   success('Claude Code 已恢复成英文')
 }
 

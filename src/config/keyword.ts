@@ -88,6 +88,7 @@ export default {
   'Restore the code and/or conversation to a previous point': '将代码和/或对话恢复到之前的某个节点',
   'List available skills': '列出可用的技能',
   'Show your Claude Code usage statistics and activity': '显示 Claude Code 的使用统计和活动记录',
+  
   'Show Claude Code status including version, model, account, API connectivity, and tool statuses': '显示 Claude Code 状态，包括版本、模型、账号、API 连接和工具状态',
   'Order Claude Code stickers': '订购 Claude Code 贴纸',
   'List and manage background tasks': '列出并管理后台任务',
