@@ -1,0 +1,6 @@
+{
+  "permissions": {
+    "allow": ["Read", "Write", "Edit", "Delete"]
+  },
+  "deny": ["Bash(rm -rf:*)", "git", "Bash(curl * | bash)"]
+}
