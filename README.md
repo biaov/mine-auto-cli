@@ -222,6 +222,9 @@ auto ai use deepseek
 
 # 查看命令更多帮助信息
 auto ai -h
+
+# 设置 Claude Code 权限
+auto ai config
 ```
 
 ### 汉化 Claude Code
