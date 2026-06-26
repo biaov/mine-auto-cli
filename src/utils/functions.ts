@@ -1,7 +1,7 @@
 import { writeFile, readFileSync, existsSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import chalk from 'chalk'
-import jsYaml from 'js-yaml'
+import * as jsYaml from 'js-yaml'
 import stripJsonComments from 'strip-json-comments'
 import { autoCliName } from '@/config'
 import type { PresetInfo } from './types'
