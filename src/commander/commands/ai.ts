@@ -1,11 +1,12 @@
 import { program } from 'commander'
 import chalk from 'chalk'
-import { success, info, error } from '@/utils/log'
-import { loadJSONCFile, getSeparatorStr } from '@/utils/functions'
 import { readFileSync, existsSync, writeFileSync, cpSync } from 'fs'
 import { resolve } from 'path'
 import os from 'os'
 import { execSync } from 'child_process'
+import inquirer from 'inquirer'
+import { success, info, error } from '@/utils/log'
+import { loadJSONCFile, getSeparatorStr } from '@/utils/functions'
 
 interface InitAIEnv {
   env: {
@@ -22,6 +23,7 @@ const keys = ['ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_BASE_URL', 'ANTHROPIC_MODEL', '
 const aiJsonc = loadJSONCFile(resolve(import.meta.dirname, 'ai.jsonc'), true)
 const initAIJson = Object.entries(aiJsonc)[0] as [string, InitAIEnv]
 const claudeConfigPath = resolve(os.homedir(), '.claude/settings.json')
+const claudeLocalConfigPath = resolve(os.homedir(), '.claude/settings.local.json')
 const aiModelPath = resolve(os.homedir(), '.ai-model.json')
 
 const loadClaudeConfig = () => {
@@ -233,6 +235,36 @@ const useZHRestore = () => {
 
   success('Claude Code 已恢复成英文')
 }
+const writeClaudeLocalConfig = async () => {
+  info()
+  const claudeConfig = (await import('@/config/claude.settings.json')).default
+  writeFileSync(claudeLocalConfigPath, JSON.stringify(claudeConfig, null, 2))
+  success(`Claude Code 配置成功，请前往查看：${chalk.yellow(claudeLocalConfigPath)}`)
+}
+/**
+ * 配置 Claude Code 默认权限
+ */
+const useConfig = async () => {
+  info()
+  info('开始配置 Claude Code 默认权限')
+  info()
+
+  if (!existsSync(claudeLocalConfigPath)) {
+    writeClaudeLocalConfig()
+    return
+  }
+
+  inquirer
+    .prompt({
+      type: 'confirm',
+      name: 'isOk',
+      message: `存在本地配置文件，继续配置会直接覆盖本地配置文件，是否继续 ？`
+    })
+    .then(({ isOk }) => {
+      if (!isOk) return
+      writeClaudeLocalConfig()
+    })
+}
 
 const aiCommand = program.command('ai').description('AI 命令，详细操作请查看 ai -h').helpOption('-h, --help', '输出所有命令').helpCommand(false)
 aiCommand.command('init').description('初始化 AI 模型配置').action(initAIModelConfig)
@@ -240,3 +272,4 @@ aiCommand.command('ls').description('查看当前已配置的 AI 模型').action
 aiCommand.command('use <模型>').description('切换 AI 模型').action(useAIModel)
 aiCommand.command('zh').description('汉化 Claude Code').action(useZH)
 aiCommand.command('zh-restore').description('恢复汉化 Claude Code').action(useZHRestore)
+aiCommand.command('config').description('配置 Claude Code 默认权限').action(useConfig)

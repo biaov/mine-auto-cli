@@ -5,7 +5,7 @@
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
@@ -15,7 +15,6 @@
     "lib": ["esnext"],
     "types": ["node", "vite/client"],
     "skipLibCheck": true,
-    "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
       "~/*": ["./*"]
