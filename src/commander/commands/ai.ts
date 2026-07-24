@@ -1,12 +1,14 @@
 import { program } from 'commander'
 import chalk from 'chalk'
 import { readFileSync, existsSync, writeFileSync, cpSync } from 'fs'
-import { resolve } from 'path'
+import { resolve, dirname } from 'path'
 import os from 'os'
 import { execSync } from 'child_process'
 import inquirer from 'inquirer'
+import { openBinary } from '@avmc/bun-extractor'
 import { success, info, error } from '@/utils/log'
-import { loadJSONCFile, getSeparatorStr } from '@/utils/functions'
+import { loadJSONCFile, getSeparatorStr, generateRandomID } from '@/utils/functions'
+import type { CliPathGroup } from '@/commander/types'
 
 interface InitAIEnv {
   env: {
@@ -133,7 +135,7 @@ const useAIModel = async (value: string) => {
 /**
  * 获取 Claude Code CLI 路径
  */
-const getCliPath = () => {
+const getCliPath = (): CliPathGroup => {
   const pkgname = '@anthropic-ai/claude-code'
   try {
     const log = execSync(`npm list -g ${pkgname} --depth=0`).toString().trim()
@@ -146,6 +148,7 @@ const getCliPath = () => {
     const cliPath = resolve(npmRoot, pkgname, 'cli.js')
     const cliPathBak = resolve(npmRoot, pkgname, 'cli.bak.js')
     const exePath = resolve(npmRoot, pkgname, 'bin/claude.exe')
+    const exeZhPath = resolve(npmRoot, pkgname, 'bin/claude.zh.exe')
     const exePathBak = resolve(npmRoot, pkgname, 'bin/claude.bak.exe')
     /**
      * 是否存在 exe 文件
@@ -158,7 +161,7 @@ const getCliPath = () => {
       !existsSync(cliPathBak) && cpSync(cliPath, cliPathBak)
     }
 
-    return { cliPath, cliPathBak, exePath, exePathBak, isExistExe }
+    return { cliPath, cliPathBak, exePath, exeZhPath, exePathBak, isExistExe }
   } catch {
     error(chalk.red(`请使用 nodejs 安装 ${pkgname}`))
     process.exit(1)
@@ -171,8 +174,16 @@ const getCliPath = () => {
 const useZH = async () => {
   info()
   info('开始汉化 Claude Code')
-  const { cliPath, exePath, exePathBak, isExistExe } = getCliPath()
+  const pathGroup = getCliPath()
+  const { cliPath, exePath, exeZhPath, isExistExe } = pathGroup
   if (isExistExe) {
+    if (existsSync(exeZhPath)) {
+      cpSync(exeZhPath, exePath)
+      return
+    }
+    await handleZH(pathGroup)
+    cpSync(exeZhPath, exePath)
+    /* 
     const buffer = readFileSync(exePathBak)
     const keyword = (await import('@/config/keyword-latest')).default
     Object.entries(keyword).forEach(([key, value]) => {
@@ -203,7 +214,8 @@ const useZH = async () => {
     })
 
     // 写入新文件
-    writeFileSync(exePath, buffer)
+    writeFileSync(exePath, buffer) 
+    */
   } else {
     const content = readFileSync(cliPath).toString()
     const keyword = (await import('@/config/keyword')).default
@@ -238,8 +250,10 @@ const useZHRestore = () => {
 const writeClaudeLocalConfig = async () => {
   info()
   const claudeConfig = (await import('@/config/claude.settings.json')).default
-  writeFileSync(claudeLocalConfigPath, JSON.stringify(claudeConfig, null, 2))
-  success(`Claude Code 配置成功，请前往查看：${chalk.yellow(claudeLocalConfigPath)}`)
+  const localConfig = loadClaudeConfig()
+  Object.assign(localConfig, claudeConfig)
+  writeFileSync(claudeConfigPath, JSON.stringify(localConfig, null, 2))
+  success(`Claude Code 配置成功，请前往查看：${chalk.yellow(claudeConfigPath)}`)
 }
 /**
  * 配置 Claude Code 默认权限
@@ -258,12 +272,51 @@ const useConfig = async () => {
     .prompt({
       type: 'confirm',
       name: 'isOk',
-      message: `存在本地配置文件，继续配置会直接覆盖本地配置文件，是否继续 ？`
+      message: `存在本地配置文件，继续配置会直接覆盖本地配置文件里的属性内容，是否继续 ？`
     })
     .then(({ isOk }) => {
       if (!isOk) return
       writeClaudeLocalConfig()
     })
+}
+
+const handleZH = async ({ cliPath, exePath, exeZhPath, exePathBak, isExistExe }: CliPathGroup) => {
+  const dir = dirname(exePath)
+  const claudeExePath = exePath
+
+  const tempOutputPath = resolve(dir, generateRandomID())
+
+  execSync(`npx bun-extractor "${claudeExePath}" -o "${tempOutputPath}"`, { stdio: 'ignore' })
+
+  const bin = openBinary(readFileSync(claudeExePath))
+  const parseCliPath = resolve(tempOutputPath, bin.entryPoint.path)
+
+  const content = readFileSync(parseCliPath).toString()
+  const keyword = (await import('@/config/keyword')).default
+  const replaceContent = Object.entries(keyword).reduce((prev, [key, value]) => {
+    const escapedKey = key.replace(/\n/g, '\\\\n').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const newValue = value.replace(/\n/g, '\\n')
+
+    return ['`', '\\'].includes(escapedKey[0])
+      ? prev.replace(new RegExp(escapedKey, 'g'), value)
+      : prev.replace(new RegExp(`\"${escapedKey}\"`, 'g'), `\"${newValue}\"`).replace(new RegExp(`(\'${escapedKey}\')`, 'g'), `\'${newValue}\'`)
+  }, content)
+
+  const newContent = Array.from(replaceContent)
+    .map(ch => {
+      const code = ch.charCodeAt(0)
+      if (code >= 0x4e00 && code <= 0x9fff) return `\\u${code.toString(16).padStart(4, '0')}`
+      return ch
+    })
+    .join('')
+  const newCliPath = parseCliPath.slice(0, -3) + '.zh.js'
+  writeFileSync(newCliPath, newContent)
+  const entryContent = `import { dirname, resolve } from 'node:path'
+  await import(resolve(dirname(process.execPath), "${newCliPath.replace(/\\/g, '/')}"))`
+  const entryPath = resolve(tempOutputPath, 'entry.js')
+  writeFileSync(entryPath, entryContent)
+  // 编译入口文件成 exe 文件
+  execSync(`bun build ${entryPath} --compile --icon=claude-code.ico --outfile ${claudeExePath.slice(0, -4) + '.zh.exe'}`, { stdio: 'ignore' })
 }
 
 const aiCommand = program.command('ai').description('AI 命令，详细操作请查看 ai -h').helpOption('-h, --help', '输出所有命令').helpCommand(false)

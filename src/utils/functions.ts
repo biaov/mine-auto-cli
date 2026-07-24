@@ -120,3 +120,8 @@ export const getDefaultConfigFile = (name: string, uncomment = false) => {
  * 获取空格
  */
 export const getSeparatorStr = (length: number, maxLength: number, separator = ' ') => Array.from({ length: maxLength - length }, () => separator).join('')
+
+/**
+ * 生成随机ID
+ */
+export const generateRandomID = () => `${+new Date()}${Math.random().toString(36).substring(2, 6)}`

@@ -1,6 +1,6 @@
 {
   "permissions": {
-    "allow": ["Read", "Edit", "Delete", "Bash(*)"],
+    "allow": ["Read(//**)", "Edit(//**)", "Delete(//**)", "Bash(*)"],
     "deny": ["Bash(git *)"],
     "defaultMode": "acceptEdits"
   },
