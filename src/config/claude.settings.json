@@ -12,5 +12,6 @@
     "code-simplifier@claude-plugins-official": true
   },
   "language": "Chinese",
-  "theme": "dark-daltonized"
+  "theme": "dark-daltonized",
+  "skipDangerousModePermissionPrompt": true
 }
