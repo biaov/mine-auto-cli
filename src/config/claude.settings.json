@@ -2,7 +2,7 @@
   "permissions": {
     "allow": ["Read(//**)", "Edit(//**)", "Delete(//**)", "Bash(*)"],
     "deny": ["Bash(git *)"],
-    "defaultMode": "acceptEdits"
+    "defaultMode": "bypassPermissions"
   },
   "enabledPlugins": {
     "context7@claude-plugins-official": true,
