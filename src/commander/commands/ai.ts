@@ -25,7 +25,6 @@ const keys = ['ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_BASE_URL', 'ANTHROPIC_MODEL', '
 const aiJsonc = loadJSONCFile(resolve(import.meta.dirname, 'ai.jsonc'), true)
 const initAIJson = Object.entries(aiJsonc)[0] as [string, InitAIEnv]
 const claudeConfigPath = resolve(os.homedir(), '.claude/settings.json')
-const claudeLocalConfigPath = resolve(os.homedir(), '.claude/settings.local.json')
 const aiModelPath = resolve(os.homedir(), '.ai-model.json')
 
 const loadClaudeConfig = () => {
@@ -263,7 +262,7 @@ const useConfig = async () => {
   info('开始配置 Claude Code 默认权限')
   info()
 
-  if (!existsSync(claudeLocalConfigPath)) {
+  if (!existsSync(claudeConfigPath)) {
     writeClaudeLocalConfig()
     return
   }
@@ -319,6 +318,22 @@ const handleZH = async ({ cliPath, exePath, exeZhPath, exePathBak, isExistExe }:
   execSync(`bun build ${entryPath} --compile --icon=claude-code.ico --outfile ${claudeExePath.slice(0, -4) + '.zh.exe'}`, { stdio: 'ignore' })
 }
 
+/**
+ * 查看 Claude Code 默认配置
+ */
+const useLSConfig = async () => {
+  info()
+  info('查看 Claude Code 默认配置')
+  info()
+
+  if (!existsSync(claudeConfigPath)) {
+    error('Claude Code 未配置，默认配置文件不存在')
+    return
+  }
+  const claudeConfig = JSON.parse(readFileSync(claudeConfigPath).toString())
+  info(claudeConfig)
+}
+
 const aiCommand = program.command('ai').description('AI 命令，详细操作请查看 ai -h').helpOption('-h, --help', '输出所有命令').helpCommand(false)
 aiCommand.command('init').description('初始化 AI 模型配置').action(initAIModelConfig)
 aiCommand.command('ls').description('查看当前已配置的 AI 模型').action(lsAIModel)
@@ -326,3 +341,4 @@ aiCommand.command('use <模型>').description('切换 AI 模型').action(useAIMo
 aiCommand.command('zh').description('汉化 Claude Code').action(useZH)
 aiCommand.command('zh-restore').description('恢复汉化 Claude Code').action(useZHRestore)
 aiCommand.command('config').description('配置 Claude Code 默认权限').action(useConfig)
+aiCommand.command('config-ls').description('查看 Claude Code 默认配置').action(useLSConfig)
