@@ -22,3 +22,4 @@ ns <version>
 
 [![贡献者们](https://contrib.rocks/image?repo=biaov/mine-auto-cli)](https://github.com/biaov/mine-auto-cli/graphs/contributors)
 
+
