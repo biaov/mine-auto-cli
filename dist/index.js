@@ -25,7 +25,6 @@ const main = () => {
     return
   }
   execSync(`nvm use ${target}`)
-  execSync(`node -v`).toString().trim()
   console.log(`${target} 已切换`)
 }
 
