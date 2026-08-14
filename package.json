@@ -1,5 +1,5 @@
 {
-  "name": "node-switch",
+  "name": "@biaov/node-switch",
   "private": false,
   "version": "1.0.0",
   "exports": "./dist/index.js",
@@ -18,10 +18,10 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "engine-strict": true,
-    "provenance": true
+    "provenance": false
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   },
   "keywords": [
     "node",
@@ -32,7 +32,7 @@
     "type": "git",
     "url": "git+https://github.com/biaov/mine-auto-cli.git"
   },
-  "homepage": "https://github.com/biaov/mine-auto-cli.git",
+  "homepage": "https://github.com/biaov/mine-auto-cli/tree/node-switch",
   "bugs": {
     "url": "https://github.com/biaov/mine-auto-cli/issues"
   },
