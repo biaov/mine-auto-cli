@@ -1,8 +1,0 @@
-import './init'
-import './git'
-import './mkdir'
-import './check'
-import './comment'
-import './vscode'
-import './node'
-import './ai'
