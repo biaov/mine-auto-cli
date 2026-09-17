@@ -250,6 +250,8 @@ const writeClaudeLocalConfig = async () => {
   info()
   const claudeConfig = (await import('@/config/claude.settings.json')).default
   const localConfig = loadClaudeConfig()
+  claudeConfig
+  claudeConfig.env && Object.assign(claudeConfig.env, localConfig.env)
   Object.assign(localConfig, claudeConfig)
   writeFileSync(claudeConfigPath, JSON.stringify(localConfig, null, 2))
   success(`Claude Code 配置成功，请前往查看：${chalk.yellow(claudeConfigPath)}`)
