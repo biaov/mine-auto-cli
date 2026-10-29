@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
-import external from './scripts/external'
-import rollupPluginCopy from './scripts/rollup-plugin-copy'
+import rollupPluginCopy from './scripts/rollup-plugin-copy.ts'
+import external from './scripts/external.ts'
 
 export default defineConfig({
   resolve: {

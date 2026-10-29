@@ -13,9 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         if: startsWith(github.ref, 'refs/tags/')
-      - name: Release
+      - name: Create Log Release
         uses: softprops/action-gh-release@v2
         with:
-          body_path: Release.md
+          body_path: log.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
