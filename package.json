@@ -19,7 +19,7 @@
     "dev": "npm run build -- --watch",
     "build": "vite build",
     "prettier": "prettier --write '**/*.{js,ts,md,json}'",
-    "tag": "node scripts/tag"
+    "tag": "node scripts/tag.ts"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
