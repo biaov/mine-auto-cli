@@ -336,7 +336,7 @@ const useLSConfig = async () => {
   info(claudeConfig)
 }
 
-const aiCommand = program.command('ai').description('AI 命令，详细操作请查看 ai -h').helpOption('-h, --help', '输出所有命令').helpCommand(false)
+const aiCommand = program.command('ai').description('AI 命令，详细操作请查看 ai -h').helpCommand(false)
 aiCommand.command('init').description('初始化 AI 模型配置').action(initAIModelConfig)
 aiCommand.command('ls').description('查看当前已配置的 AI 模型').action(lsAIModel)
 aiCommand.command('use <模型>').description('切换 AI 模型').action(useAIModel)
