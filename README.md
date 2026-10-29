@@ -22,6 +22,7 @@
 - [x] [切换 Node 版本](#切换-node-版本)
 - [x] [切换 AI 模型](#切换-ai-模型)
 - [x] [汉化 Claude Code](#汉化-claude-code)
+- [x] [压缩图片](#压缩图片)
 
 ## 全局安装
 
@@ -225,6 +226,9 @@ auto ai -h
 
 # 设置 Claude Code 权限
 auto ai config
+
+# 查看 Claude Code 配置信息
+auto ai config-ls
 ```
 
 ### 汉化 Claude Code
@@ -235,6 +239,27 @@ auto ai zh
 
 # Claude Code 还原成英文
 auto ai zh-restore
+```
+
+### 压缩图片
+
+- 基于 `sharp` 压缩图片，默认采用 TinyPNG 风格的智能有损压缩（PNG 调色板量化、JPEG 优化量化表）
+- 递归处理子目录并保持原目录结构，默认输出到图片目录下的 `mini` 子目录
+- 压缩后体积未减小的图片会原样输出；GIF / SVG 等不支持的文件会跳过
+- 需要画质完全不变时添加 `--lossless` 切换为无损压缩（体积会明显更大）
+
+```sh
+# 压缩 images 目录，输出到 images/mini
+auto mini ./images
+
+# 指定输出目录
+auto mini ./images ./dist-images
+
+# 转换为 webp（可选 png / jpg / webp / avif / tiff）
+auto mini ./images -e webp
+
+# 无损压缩
+auto mini ./images --lossless
 ```
 
 ### 技术栈
@@ -254,6 +279,7 @@ auto ai zh-restore
 - `ora`: 动画效果
 - `pacote`: 包信息请求器
 - `semver-utils`: 解析包版本
+- `sharp`: 图片压缩
 - `strip-json-comments`: 移除 json 注释
 - `update-notifier`: 检查更新
 

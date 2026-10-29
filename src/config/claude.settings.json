@@ -1,7 +1,27 @@
 {
+  "env": {
+    "DISABLE_AUTOUPDATER": "1"
+  },
   "permissions": {
     "allow": ["Read(//**)", "Edit(//**)", "Delete(//**)", "Bash(*)"],
-    "deny": ["Bash(git *)"],
+    "deny": [
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git reset *)",
+      "Bash(git checkout *)",
+      "Bash(git switch *)",
+      "Bash(git merge *)",
+      "Bash(git rebase *)",
+      "Bash(git branch *)",
+      "Bash(git rm *)",
+      "Bash(git mv *)",
+      "Bash(git tag *)",
+      "Bash(git stash *)",
+      "Bash(git clean *)",
+      "Bash(git cherry-pick *)",
+      "Bash(git revert *)"
+    ],
     "defaultMode": "bypassPermissions"
   },
   "enabledPlugins": {
@@ -12,6 +32,6 @@
     "code-simplifier@claude-plugins-official": true
   },
   "language": "Chinese",
-  "theme": "dark-daltonized",
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark-daltonized"
 }
